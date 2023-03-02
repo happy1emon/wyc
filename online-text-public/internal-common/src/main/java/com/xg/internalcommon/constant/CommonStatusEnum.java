@@ -7,6 +7,7 @@ import lombok.Getter;
 //定义枚举类
 
 public enum CommonStatusEnum {
+    VERIFICATION_CODE_ERROR(1099,"验证码不正确"),
     /**
      * 成功
      */

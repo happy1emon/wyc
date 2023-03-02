@@ -22,7 +22,7 @@ public class VerificationCodeController {
     @PostMapping("/verification-code-check")
     public ResponseResult checkVerificationCode(@RequestBody VerificationCodeDTO verificationCodeDTO){
         String passengerPhone=verificationCodeDTO.getPassengerPhone();
-        String verificationCode=verificationCodeDTO.getPassengerPhone();
+        String verificationCode=verificationCodeDTO.getVerificationCode();
         System.out.println("passengerPhone:"+passengerPhone);
         System.out.println("verificationCode:"+verificationCode);
         return verificationCodeService.checkVerificationCode(passengerPhone,verificationCode);
