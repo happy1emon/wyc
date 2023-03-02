@@ -1,6 +1,7 @@
 package com.xh.apipassenger.service;
 
 
+import com.xg.internalcommon.dto.ResponseResult;
 
 public interface VerificationCodeService {
 
@@ -9,5 +10,5 @@ public interface VerificationCodeService {
      * @param passengerPhone 手机号
      * @return 验证码
      */
-    String generatorCode(String passengerPhone);
+    ResponseResult generatorCode(String passengerPhone);
 }

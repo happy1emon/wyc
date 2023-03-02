@@ -1,5 +1,6 @@
 package com.xh.apipassenger.controller;
 
+import com.xg.internalcommon.dto.ResponseResult;
 import com.xh.apipassenger.request.VerificationCodeDTO;
 import com.xh.apipassenger.service.VerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class VerificationCodeController {
     private VerificationCodeService verificationCodeService;
 
     @GetMapping("/verification-code")
-    public String verificationCode(@RequestBody VerificationCodeDTO verificationCodeDTO){
+    public ResponseResult verificationCode(@RequestBody VerificationCodeDTO verificationCodeDTO){
         String passengerPhone = verificationCodeDTO.getPassengerPhone();
         System.out.println(passengerPhone);
         return verificationCodeService.generatorCode(passengerPhone);
