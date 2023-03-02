@@ -3,7 +3,6 @@ package com.xg.internalcommon.response;
 import lombok.Data;
 
 @Data
-public class NumberCodeResponse {
-    private int numberCode;
-
+public class ToeknResponse {
+    private String token;
 }

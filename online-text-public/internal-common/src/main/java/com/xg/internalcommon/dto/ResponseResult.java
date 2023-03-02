@@ -16,7 +16,6 @@ public class ResponseResult<T> {
     private int code;
     private String message;
     private T data;
-
     /*
     成功响应的方法
      */
@@ -61,6 +60,4 @@ public class ResponseResult<T> {
     public static  ResponseResult fail(int code,String message,String data){
         return new ResponseResult().setCode(code).setMessage(message).setData(data);
     }
-
-
 }
