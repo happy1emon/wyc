@@ -10,6 +10,7 @@ import com.xg.internalcommon.utils.JwtUtils;
 import com.xh.apipassenger.remote.ServicePassengerUserClient;
 import com.xh.apipassenger.remote.ServiceVerificationcodeClient;
 import com.xh.apipassenger.service.VerificationCodeService;
+import jdk.nashorn.internal.parser.Token;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -71,7 +72,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 
         //响应
         ToeknResponse toeknResponse=new ToeknResponse();
-        toeknResponse.setToken("token value");
+        toeknResponse.setToken(token);
         return ResponseResult.success(toeknResponse);
     }
     private String generatorKeyByPhone(String passengerPhone){
