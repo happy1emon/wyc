@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -22,12 +23,12 @@ public class PassengerUser implements Serializable {
     /**
      * 创建表时间
      */
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
     /**
      * 更新表时间
      */
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
     /**
      * 乘客手机号
@@ -69,28 +70,28 @@ public class PassengerUser implements Serializable {
     /**
      * 创建表时间
      */
-    public Date getGmtCreate() {
+    public LocalDateTime getGmtCreate() {
         return gmtCreate;
     }
 
     /**
      * 创建表时间
      */
-    public void setGmtCreate(Date gmtCreate) {
+    public void setGmtCreate(LocalDateTime gmtCreate) {
         this.gmtCreate = gmtCreate;
     }
 
     /**
      * 更新表时间
      */
-    public Date getGmtModified() {
+    public LocalDateTime getGmtModified() {
         return gmtModified;
     }
 
     /**
      * 更新表时间
      */
-    public void setGmtModified(Date gmtModified) {
+    public void setGmtModified(LocalDateTime gmtModified) {
         this.gmtModified = gmtModified;
     }
 
