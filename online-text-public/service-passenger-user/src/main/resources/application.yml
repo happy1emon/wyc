@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8083
 spring:
   cloud:
     nacos:
@@ -7,3 +7,8 @@ spring:
         server-addr: localhost:8848
   application:
     name: service-passenger-user
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/service-passenger-user?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: root

@@ -20,6 +20,4 @@ public class UserController {
         System.out.println("手机号："+passengerPhone);
         return userService.loginOrRegister(passengerPhone);
     }
-
-
 }
