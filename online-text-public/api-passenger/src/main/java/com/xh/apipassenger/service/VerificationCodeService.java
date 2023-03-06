@@ -13,4 +13,5 @@ public interface VerificationCodeService {
     ResponseResult generatorCode(String passengerPhone);
 
     ResponseResult checkVerificationCode(String passengerPhone,String verificationCode);
+
 }

@@ -2,8 +2,10 @@ package com.xh.apipassenger.service.impl;
 
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.request.VerificationCodeDTO;
 import com.xg.internalcommon.response.NumberCodeResponse;
 import com.xg.internalcommon.response.ToeknResponse;
+import com.xh.apipassenger.remote.ServicePassengerUserClient;
 import com.xh.apipassenger.remote.ServiceVerificationcodeClient;
 import com.xh.apipassenger.service.VerificationCodeService;
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +26,8 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     //OpenFeign远程调用接口
     @Autowired
     private ServiceVerificationcodeClient serviceVerificationcodeClient;
+    @Autowired
+    private ServicePassengerUserClient servicePassengerUserClient;
     //乘客验证码前缀
     private final String verificationCodePrefix="passenger-verification-code-";
     //kv值为String时用这个就可以
@@ -54,7 +58,10 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         }
         //3、 判断原来是否有用户，并进行对应的处理
         System.out.println("checking passenger");
-
+        VerificationCodeDTO verificationCodeDTO=new VerificationCodeDTO();
+        verificationCodeDTO.setPassengerPhone(passengerPhone);
+        //调用远程服务
+        servicePassengerUserClient.loginOrRegister(verificationCodeDTO);
 
         // 颁发令牌
         System.out.println("assign token");
