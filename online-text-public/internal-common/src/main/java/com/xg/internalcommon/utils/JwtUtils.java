@@ -6,6 +6,8 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.xg.internalcommon.dto.TokenResult;
+import jdk.nashorn.internal.parser.Token;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,12 +20,16 @@ import java.util.Map;
 public class JwtUtils {
     //盐
     private static final String SIGN="XGLOVEXIAODAN!!@";
-    private static final String JWT_KEY="passengerPhone";
+    private static final String JWT_KEY_PHONE="passengerPhone";
+    //假设乘客是1 司机是2
+    private static final String JWT_KEY_IDENTITY="identity";
     //生成token
-    public static String generatorToken(String passengerPhone){
+    public static String generatorToken(String passengerPhone,String identity){
         //定义token过期时间
         Map<String,String> map=new HashMap<>();
-        map.put(JWT_KEY,passengerPhone);
+        map.put(JWT_KEY_PHONE,passengerPhone);
+        //防止乘客和司机为同一个手机号 需要添加字段
+        map.put(JWT_KEY_IDENTITY,identity);
         Calendar calendar=Calendar.getInstance();
         calendar.add(Calendar.DATE,1);
         Date date=calendar.getTime();
@@ -38,17 +44,21 @@ public class JwtUtils {
     }
 
     //解析token
-    public static String parseToken(String token){
+    public static TokenResult parseToken(String token){
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
-        Claim passengerPhone = verify.getClaim(JWT_KEY);
-        return passengerPhone.toString();
+        String phone = verify.getClaim(JWT_KEY_PHONE).toString();
+        String identity=verify.getClaim(JWT_KEY_IDENTITY).toString();
+        TokenResult tokenResult=new TokenResult();
+        tokenResult.setIdentity(identity);
+        tokenResult.setPhone(phone);
+        return tokenResult;
     }
 
     public static void main(String[] args) {
-        String s = generatorToken("15666015992");
+        String s = generatorToken("15666015992","1");
         System.out.println("生成的token:\n"+s);
-        String s1 = parseToken(s);
-        System.out.println("解析的 token: \n"+s1);
+        TokenResult tokenResult = parseToken(s);
+        System.out.println("解析的 token: \n"+tokenResult);
     }
 
 }

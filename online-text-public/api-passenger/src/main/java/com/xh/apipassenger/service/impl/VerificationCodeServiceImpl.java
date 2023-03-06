@@ -1,10 +1,12 @@
 package com.xh.apipassenger.service.impl;
 
 import com.xg.internalcommon.constant.CommonStatusEnum;
+import com.xg.internalcommon.constant.IdentityConstant;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.request.VerificationCodeDTO;
 import com.xg.internalcommon.response.NumberCodeResponse;
 import com.xg.internalcommon.response.ToeknResponse;
+import com.xg.internalcommon.utils.JwtUtils;
 import com.xh.apipassenger.remote.ServicePassengerUserClient;
 import com.xh.apipassenger.remote.ServiceVerificationcodeClient;
 import com.xh.apipassenger.service.VerificationCodeService;
@@ -64,7 +66,8 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         servicePassengerUserClient.loginOrRegister(verificationCodeDTO);
 
         // 颁发令牌
-        System.out.println("assign token");
+        //要定义枚举类型来定义司机和乘客
+        String token= JwtUtils.generatorToken(passengerPhone, IdentityConstant.PASSENGER_IDENTITY);
 
         //响应
         ToeknResponse toeknResponse=new ToeknResponse();
