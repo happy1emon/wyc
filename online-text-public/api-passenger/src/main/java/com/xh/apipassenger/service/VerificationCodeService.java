@@ -2,7 +2,6 @@ package com.xh.apipassenger.service;
 
 
 import com.xg.internalcommon.dto.ResponseResult;
-import com.xh.apipassenger.request.VerificationCodeDTO;
 
 public interface VerificationCodeService {
 

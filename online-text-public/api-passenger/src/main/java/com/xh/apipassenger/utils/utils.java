@@ -5,11 +5,9 @@ import com.xg.internalcommon.dto.ResponseResult;
 import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class utils {
-    public static ResponseResult checkCode(String verificationCode,String codeRedis){
-        if (StringUtils.isBlank(codeRedis)){
-            return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(),CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
-        }
-        return ResponseResult.success();
-    }
+
 }
