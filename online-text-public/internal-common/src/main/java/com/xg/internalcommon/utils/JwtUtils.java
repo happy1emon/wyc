@@ -36,11 +36,10 @@ public class JwtUtils {
         JWTCreator.Builder builder= JWT.create();
         //把map的值迭代放入builder中
         map.forEach(builder::withClaim);
-        //整合过期时间
-        builder.withExpiresAt(date);
+        //整合过期时间 在服务端设置了有效期了 这里就不设置了
+//        builder.withExpiresAt(date);
         //生成token
-        String sign = builder.sign(Algorithm.HMAC256(SIGN));
-        return sign;
+        return builder.sign(Algorithm.HMAC256(SIGN));
     }
 
     //解析token

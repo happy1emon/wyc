@@ -33,6 +33,8 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     private ServicePassengerUserClient servicePassengerUserClient;
     //乘客验证码前缀
     private final String verificationCodePrefix="passenger-verification-code-";
+    //token前缀
+    private String tokenPrefix="token-";
     //kv值为String时用这个就可以
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -65,10 +67,12 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         verificationCodeDTO.setPassengerPhone(passengerPhone);
         //调用远程服务
         servicePassengerUserClient.loginOrRegister(verificationCodeDTO);
-
         // 颁发令牌
-        //要定义枚举类型来定义司机和乘客
+        //要定义枚举类型来定义司机和乘客 不应该用魔法值
         String token= JwtUtils.generatorToken(passengerPhone, IdentityConstant.PASSENGER_IDENTITY);
+        //将token存到redis中
+        String tokenkey=generatorTokenKey(passengerPhone,IdentityConstant.PASSENGER_IDENTITY);
+        stringRedisTemplate.opsForValue().set(tokenkey,token,30,TimeUnit.DAYS);
 
         //响应
         ToeknResponse toeknResponse=new ToeknResponse();
@@ -79,6 +83,15 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         return verificationCodePrefix+passengerPhone;
     }
 
+    /**
+     * 根据手机号和身份标识，生成token
+     * @param phone
+     * @param identity
+     * @return
+     */
+    private String generatorTokenKey(String phone,String identity){
+        return tokenPrefix+phone+"-"+identity;
+    }
 
 
 }
