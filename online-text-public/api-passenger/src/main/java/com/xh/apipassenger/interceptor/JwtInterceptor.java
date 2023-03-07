@@ -7,7 +7,6 @@ import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.utils.JwtUtils;
 import net.sf.json.JSONObject;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -45,8 +44,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
         if (!result){
             PrintWriter out=response.getWriter();
-            out.print(JSONObject.fromObject(ResponseResult.fail(resultString).toString()));
+            out.print(JSONObject.fromObject(ResponseResult.fail(resultString)).toString());
         }
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+        return result;
     }
 }
