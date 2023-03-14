@@ -1,7 +1,7 @@
 package com.xg.servicepassengeruser.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xg.servicepassengeruser.domain.PassengerUser;
+import com.xg.internalcommon.dto.PassengerUser;
 import com.xg.servicepassengeruser.service.PassengerUserService;
 import com.xg.servicepassengeruser.mapper.PassengerUserMapper;
 import org.springframework.stereotype.Service;

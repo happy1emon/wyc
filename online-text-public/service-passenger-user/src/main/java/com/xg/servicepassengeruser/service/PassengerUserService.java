@@ -1,6 +1,6 @@
 package com.xg.servicepassengeruser.service;
 
-import com.xg.servicepassengeruser.domain.PassengerUser;
+import com.xg.internalcommon.dto.PassengerUser;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 

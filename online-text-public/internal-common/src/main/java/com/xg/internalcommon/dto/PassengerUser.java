@@ -1,17 +1,19 @@
-package com.xg.servicepassengeruser.domain;
+package com.xg.internalcommon.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 
  * @TableName passenger_user
  */
+@Data
 @TableName(value ="passenger_user")
 public class PassengerUser implements Serializable {
     /**
@@ -49,6 +51,8 @@ public class PassengerUser implements Serializable {
      * 乘客状态
      */
     private Integer state;
+
+    private String profilePhoto;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -200,6 +204,7 @@ public class PassengerUser implements Serializable {
         sb.append(", passengerGender=").append(passengerGender);
         sb.append(", state=").append(state);
         sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append(", profilePhoto=").append(profilePhoto);
         sb.append("]");
         return sb.toString();
     }

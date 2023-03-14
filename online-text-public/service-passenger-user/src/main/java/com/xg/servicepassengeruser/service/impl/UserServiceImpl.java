@@ -1,7 +1,7 @@
 package com.xg.servicepassengeruser.service.impl;
 
 import com.xg.internalcommon.dto.ResponseResult;
-import com.xg.servicepassengeruser.domain.PassengerUser;
+import com.xg.internalcommon.dto.PassengerUser;
 import com.xg.servicepassengeruser.mapper.PassengerUserMapper;
 import com.xg.servicepassengeruser.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,9 +4,6 @@ package com.xg.internalcommon.utils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.AlgorithmMismatchException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.xg.internalcommon.dto.TokenResult;
 
@@ -38,7 +35,7 @@ public class JwtUtils {
         calendar.add(Calendar.DATE,1);
         Date date=calendar.getTime();
         map.put(JWT_TOKEN_TIME,date.toString());
-        
+
         JWTCreator.Builder builder= JWT.create();
         //把map的值迭代放入builder中
         map.forEach(builder::withClaim);

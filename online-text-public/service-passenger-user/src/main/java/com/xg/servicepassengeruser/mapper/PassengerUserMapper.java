@@ -1,7 +1,7 @@
 package com.xg.servicepassengeruser.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xg.servicepassengeruser.domain.PassengerUser;
+import com.xg.internalcommon.dto.PassengerUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
