@@ -73,10 +73,10 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         String refreshToken=JwtUtils.generatorToken(passengerPhone,IdentityConstant.PASSENGER_IDENTITY, TokenConstants.REFRESH_TOKEN_TYPE);
         //将accesstoken存到redis中
         String accessTokenkey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY,TokenConstants.ACCESS_TOKEN_TYPE);
-        stringRedisTemplate.opsForValue().set(accessTokenkey, accessToken, 30, TimeUnit.DAYS);
+        stringRedisTemplate.opsForValue().set(accessTokenkey, accessToken, 10, TimeUnit.SECONDS);
         //将refreshToken存到redis中  且要比accessToken晚失效
         String refreshTokenkey=RedisPrefixUtils.generatorTokenKey(passengerPhone,IdentityConstant.PASSENGER_IDENTITY,TokenConstants.REFRESH_TOKEN_TYPE);
-        stringRedisTemplate.opsForValue().set(refreshTokenkey, refreshToken, 31, TimeUnit.DAYS);
+        stringRedisTemplate.opsForValue().set(refreshTokenkey, refreshToken, 90, TimeUnit.SECONDS);
 
 
         //响应

@@ -35,16 +35,15 @@ public class TokenServiceImple implements TokenService {
         String refreshTokenKeyRedis = stringRedisTemplate.opsForValue().get(refreshTokenKey);
         //校验refreshToken
         if (StringUtils.isBlank(refreshTokenKeyRedis)
-                ||
-                (!refreshTokenKeyRedis.trim().equals(refreshTokenKey.trim()))) {
+                || (!refreshTokenSrc.trim().equals(refreshTokenKeyRedis.trim()))) {
             return ResponseResult.fail(CommonStatusEnum.TOKEN_ERROR.getCode(), CommonStatusEnum.TOKEN_ERROR.getValue());
         }
         //生成双token
         String refreshToken = JwtUtils.generatorToken(phone, identity, TokenConstants.REFRESH_TOKEN_TYPE);
         String accessToken = JwtUtils.generatorToken(phone, identity, TokenConstants.ACCESS_TOKEN_TYPE);
         String accessTokenKey = RedisPrefixUtils.generatorTokenKey(phone, identity, TokenConstants.ACCESS_TOKEN_TYPE);
-        stringRedisTemplate.opsForValue().set(accessTokenKey, accessToken, 30, TimeUnit.DAYS);
-        stringRedisTemplate.opsForValue().set(refreshTokenKey, refreshToken, 31, TimeUnit.DAYS);
+        stringRedisTemplate.opsForValue().set(accessTokenKey, accessToken, 10, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(refreshTokenKey, refreshToken, 90, TimeUnit.SECONDS);
         TokenResponse tokenResponse=new TokenResponse();
         tokenResponse.setRefreshToken(refreshToken);
         tokenResponse.setAccessToken(accessToken);
