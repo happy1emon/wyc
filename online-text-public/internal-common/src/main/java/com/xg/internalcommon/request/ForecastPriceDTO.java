@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class ForecastPriceDTO {
-    private String depLongtitude;
+    private String depLongitude;
 
     private String depLatitude;
 
-    private String destLongtitude;
+    private String destLongitude;
 
     private String destLatitude;
 

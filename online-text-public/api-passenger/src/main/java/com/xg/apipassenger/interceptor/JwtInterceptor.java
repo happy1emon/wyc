@@ -30,11 +30,11 @@ public class JwtInterceptor implements HandlerInterceptor {
             throws Exception {
         //token携带位置一般在请求头的Authorization中
         String token = request.getHeader("Authorization");
-
         String resultString = "";
         boolean result = true;
         //定义返回结果 和返回信息
         TokenResult tokenResult = JwtUtils.checkToken(token);
+        System.out.println(tokenResult);
         //从redis中取出token
         if (tokenResult != null) {
             String phone = tokenResult.getPhone();
@@ -46,6 +46,9 @@ public class JwtInterceptor implements HandlerInterceptor {
                 resultString = "token invalid";
                 result = false;
             }
+        } else {
+            resultString = "token invalid";
+            result = false;
         }
         if (!result) {
             PrintWriter out = response.getWriter();
