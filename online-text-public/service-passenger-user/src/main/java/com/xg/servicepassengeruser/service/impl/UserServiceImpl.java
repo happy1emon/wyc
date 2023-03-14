@@ -1,5 +1,7 @@
 package com.xg.servicepassengeruser.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.PassengerUser;
 import com.xg.servicepassengeruser.mapper.PassengerUserMapper;
@@ -39,5 +41,19 @@ public class UserServiceImpl implements UserService {
         //如果不存在，插入用户信息
 
         return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult selectUserByPassengerPhone(String passengerPhone) {
+        QueryWrapper<PassengerUser> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("passenger_phone",passengerPhone);
+        List<PassengerUser> passengerUser = passengerUserMapper.selectList(queryWrapper);
+        if (passengerUser.size()==0){
+            return ResponseResult.fail(CommonStatusEnum.USER_NOT_EXISTS);
+        }
+        else {
+            PassengerUser passengerUser1 = passengerUser.get(0);
+            return ResponseResult.success(passengerUser1);
+        }
     }
 }

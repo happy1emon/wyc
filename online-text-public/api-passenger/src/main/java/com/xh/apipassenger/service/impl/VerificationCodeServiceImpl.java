@@ -49,7 +49,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     @Override
     public ResponseResult checkVerificationCode(String passengerPhone, String verificationCode) {
         //1、 根据手机号 在redis读取验证码
-        System.out.println("1、 根据手机号 在redis读取验证码");
+//        System.out.println("1、 根据手机号 在redis读取验证码");
         //生成key
         String key = RedisPrefixUtils.generatorKeyByPhone(passengerPhone);
         //根据key获取value
@@ -69,13 +69,13 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         servicePassengerUserClient.loginOrRegister(verificationCodeDTO);
         // 颁发令牌
         //要定义枚举类型来定义司机和乘客 不应该用魔法值
-        String accessToken = JwtUtils.generatorToken(passengerPhone, IdentityConstant.PASSENGER_IDENTITY,TokenConstants.ACCESS_TOKEN_TYPE);
-        String refreshToken=JwtUtils.generatorToken(passengerPhone,IdentityConstant.PASSENGER_IDENTITY, TokenConstants.REFRESH_TOKEN_TYPE);
+        String accessToken = JwtUtils.generatorToken(passengerPhone, IdentityConstant.PASSENGER_IDENTITY, TokenConstants.ACCESS_TOKEN_TYPE);
+        String refreshToken = JwtUtils.generatorToken(passengerPhone, IdentityConstant.PASSENGER_IDENTITY, TokenConstants.REFRESH_TOKEN_TYPE);
         //将accesstoken存到redis中
-        String accessTokenkey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY,TokenConstants.ACCESS_TOKEN_TYPE);
+        String accessTokenkey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY, TokenConstants.ACCESS_TOKEN_TYPE);
         stringRedisTemplate.opsForValue().set(accessTokenkey, accessToken, 10, TimeUnit.SECONDS);
         //将refreshToken存到redis中  且要比accessToken晚失效
-        String refreshTokenkey=RedisPrefixUtils.generatorTokenKey(passengerPhone,IdentityConstant.PASSENGER_IDENTITY,TokenConstants.REFRESH_TOKEN_TYPE);
+        String refreshTokenkey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY, TokenConstants.REFRESH_TOKEN_TYPE);
         stringRedisTemplate.opsForValue().set(refreshTokenkey, refreshToken, 90, TimeUnit.SECONDS);
 
 

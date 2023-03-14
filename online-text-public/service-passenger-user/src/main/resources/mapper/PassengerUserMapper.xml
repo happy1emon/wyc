@@ -10,12 +10,13 @@
             <result property="passengerPhone" column="passenger_phone" jdbcType="VARCHAR"/>
             <result property="passengerName" column="passenger_name" jdbcType="VARCHAR"/>
             <result property="passengerGender" column="passenger_gender" jdbcType="TINYINT"/>
-            <result property="state" column="state" jdbcType="TINYINT"/>
+        <result property="state" column="state" jdbcType="TINYINT"/>
+        <result property="profilePhoto" column="profile_photo" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,gmt_create,gmt_modified,
         passenger_phone,passenger_name,passenger_gender,
-        state
+        state,profile_photo
     </sql>
 </mapper>
