@@ -13,11 +13,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @PostMapping("/user")
-    public ResponseResult loginOrReg(@RequestBody VerificationCodeDTO verificationCodeDTO){
+    public ResponseResult loginOrReg(@RequestBody VerificationCodeDTO verificationCodeDTO) {
         String passengerPhone = verificationCodeDTO.getPassengerPhone();
-        System.out.println("手机号："+passengerPhone);
+        System.out.println("手机号：" + passengerPhone);
         return userService.loginOrRegister(passengerPhone);
     }
 }

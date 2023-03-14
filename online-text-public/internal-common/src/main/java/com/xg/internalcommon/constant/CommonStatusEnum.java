@@ -7,6 +7,10 @@ import lombok.Getter;
 //定义枚举类
 
 public enum CommonStatusEnum {
+    /**
+     * token error code in [1100,1199]
+     */
+    TOKEN_ERROR(1199,"token错误"),
     VERIFICATION_CODE_ERROR(1099,"验证码不正确"),
     /**
      * 成功
