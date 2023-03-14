@@ -1,4 +1,4 @@
-package com.xh.apipassenger.remote;
+package com.xg.apipassenger.remote;
 
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.response.NumberCodeResponse;

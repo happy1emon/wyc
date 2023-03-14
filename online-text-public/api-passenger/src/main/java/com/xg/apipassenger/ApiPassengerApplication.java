@@ -1,4 +1,4 @@
-package com.xh.apipassenger;
+package com.xg.apipassenger;
 
 
 import org.springframework.boot.SpringApplication;

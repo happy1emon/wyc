@@ -1,11 +1,10 @@
-package com.xh.apipassenger.service.impl;
+package com.xg.apipassenger.service.impl;
 
+import com.xg.apipassenger.remote.ServicePassengerUserClient;
+import com.xg.apipassenger.service.UserService;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.TokenResult;
-import com.xg.internalcommon.request.VerificationCodeDTO;
 import com.xg.internalcommon.utils.JwtUtils;
-import com.xh.apipassenger.remote.ServicePassengerUserClient;
-import com.xh.apipassenger.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

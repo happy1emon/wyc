@@ -1,8 +1,7 @@
-package com.xh.apipassenger.controller;
+package com.xg.apipassenger.controller;
 
 import com.xg.internalcommon.dto.ResponseResult;
-import com.xh.apipassenger.service.UserService;
-import lombok.Getter;
+import com.xg.apipassenger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

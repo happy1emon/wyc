@@ -1,5 +1,6 @@
-package com.xh.apipassenger.service.impl;
+package com.xg.apipassenger.service.impl;
 
+import com.xg.apipassenger.service.TokenService;
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.constant.TokenConstants;
 import com.xg.internalcommon.dto.ResponseResult;
@@ -7,7 +8,6 @@ import com.xg.internalcommon.dto.TokenResult;
 import com.xg.internalcommon.response.TokenResponse;
 import com.xg.internalcommon.utils.JwtUtils;
 import com.xg.internalcommon.utils.RedisPrefixUtils;
-import com.xh.apipassenger.service.TokenService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

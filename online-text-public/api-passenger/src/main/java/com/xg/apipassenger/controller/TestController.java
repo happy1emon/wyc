@@ -1,4 +1,4 @@
-package com.xh.apipassenger.controller;
+package com.xg.apipassenger.controller;
 
 import com.xg.internalcommon.dto.ResponseResult;
 import org.springframework.web.bind.annotation.GetMapping;

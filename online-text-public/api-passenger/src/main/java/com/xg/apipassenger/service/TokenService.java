@@ -1,4 +1,4 @@
-package com.xh.apipassenger.service;
+package com.xg.apipassenger.service;
 
 import com.xg.internalcommon.dto.ResponseResult;
 

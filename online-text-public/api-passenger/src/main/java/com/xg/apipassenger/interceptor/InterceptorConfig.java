@@ -1,6 +1,5 @@
-package com.xh.apipassenger.interceptor;
+package com.xg.apipassenger.interceptor;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

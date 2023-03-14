@@ -1,9 +1,8 @@
-package com.xh.apipassenger.controller;
+package com.xg.apipassenger.controller;
 
+import com.xg.apipassenger.service.TokenService;
 import com.xg.internalcommon.dto.ResponseResult;
-import com.xg.internalcommon.dto.TokenResult;
 import com.xg.internalcommon.response.TokenResponse;
-import com.xh.apipassenger.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

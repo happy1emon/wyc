@@ -1,8 +1,8 @@
-package com.xh.apipassenger.controller;
+package com.xg.apipassenger.controller;
 
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.request.VerificationCodeDTO;
-import com.xh.apipassenger.service.VerificationCodeService;
+import com.xg.apipassenger.service.VerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

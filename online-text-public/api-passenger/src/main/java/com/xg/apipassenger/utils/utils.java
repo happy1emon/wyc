@@ -1,4 +1,4 @@
-package com.xh.apipassenger.utils;
+package com.xg.apipassenger.utils;
 
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.dto.ResponseResult;

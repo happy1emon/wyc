@@ -1,5 +1,8 @@
-package com.xh.apipassenger.service.impl;
+package com.xg.apipassenger.service.impl;
 
+import com.xg.apipassenger.remote.ServicePassengerUserClient;
+import com.xg.apipassenger.remote.ServiceVerificationcodeClient;
+import com.xg.apipassenger.service.VerificationCodeService;
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.constant.IdentityConstant;
 import com.xg.internalcommon.constant.TokenConstants;
@@ -9,9 +12,6 @@ import com.xg.internalcommon.response.NumberCodeResponse;
 import com.xg.internalcommon.response.TokenResponse;
 import com.xg.internalcommon.utils.JwtUtils;
 import com.xg.internalcommon.utils.RedisPrefixUtils;
-import com.xh.apipassenger.remote.ServicePassengerUserClient;
-import com.xh.apipassenger.remote.ServiceVerificationcodeClient;
-import com.xh.apipassenger.service.VerificationCodeService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
