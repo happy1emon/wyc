@@ -15,6 +15,8 @@ public class ForecastPriceController {
     @Autowired
     private ForecastPriceService forecastPriceService;
 
+
+
     @PostMapping("/forecast-price")
     public ResponseResult forecastPrice(@RequestBody ForecastPriceDTO forecastPriceDTO) {
 
