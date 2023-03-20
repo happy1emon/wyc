@@ -29,3 +29,13 @@ public ResponseResult getUserByPhone(@RequestBody VerificationDTO verificationDT
 @GetMapping("/user/{phone}")
 public ResponseResult getUserByPhone(@PathVariable("phone") String phone)
 ```
+
+或者在pom中引入 version=10.10.1
+
+```java
+
+  <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
+```
