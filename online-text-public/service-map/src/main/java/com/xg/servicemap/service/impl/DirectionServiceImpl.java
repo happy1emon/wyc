@@ -15,7 +15,6 @@ public class DirectionServiceImpl implements DirecationService {
     @Autowired
     private MapDirectionClient mapDirectionClient;
 
-
     @Override
     public ResponseResult driving(String depLongitude,
                                   String depLatitude,
