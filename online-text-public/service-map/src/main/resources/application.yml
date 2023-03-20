@@ -10,3 +10,5 @@ spring:
         server-addr: localhost:8848
 
 
+amap:
+  key: 08449262cb3620f7487990f953bb3ebd

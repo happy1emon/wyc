@@ -77,8 +77,6 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         //将refreshToken存到redis中  且要比accessToken晚失效
         String refreshTokenkey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY, TokenConstants.REFRESH_TOKEN_TYPE);
         stringRedisTemplate.opsForValue().set(refreshTokenkey, refreshToken, 90, TimeUnit.SECONDS);
-
-
         //响应
         TokenResponse toeknResponse = new TokenResponse();
         toeknResponse.setAccessToken(accessToken);

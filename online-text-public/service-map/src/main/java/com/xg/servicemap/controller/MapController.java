@@ -9,15 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/direction")
 public class MapController {
 
     @Autowired
     private DirecationService direcationService;
 
-    @GetMapping("/direction/driving")
+    @GetMapping("/driving")
     public ResponseResult directionDistanceAndTime(@RequestBody ForecastPriceDTO forecastPriceDTO) {
         String depLongitude = forecastPriceDTO.getDepLongitude();
         String depLatitude = forecastPriceDTO.getDepLatitude();
