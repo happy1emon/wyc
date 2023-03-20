@@ -21,11 +21,7 @@ public class DirectionServiceImpl implements DirecationService {
                                   String depLatitude,
                                   String destLongitude,
                                   String destLatitude) {
-
-        DirectionResponse directionResponse=new DirectionResponse();
-        directionResponse.setDistance(123);
-        directionResponse.setDuration(12);
-        mapDirectionClient.direction(depLongitude,depLatitude,destLongitude,destLatitude);
-        return ResponseResult.success(directionResponse);
+        DirectionResponse direction = mapDirectionClient.direction(depLongitude, depLatitude, destLongitude, destLatitude);
+        return ResponseResult.success(direction);
     }
 }
