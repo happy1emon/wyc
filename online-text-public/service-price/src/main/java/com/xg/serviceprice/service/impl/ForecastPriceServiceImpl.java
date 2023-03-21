@@ -40,13 +40,9 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
         forecastPriceDTO.setDepLongitude(depLongitude);
         forecastPriceDTO.setDestLongitude(destLongitude);
         forecastPriceDTO.setDestLatitude(destLatitude);
-
-        log.info("调用地图服务，查询距离和时长");
         ResponseResult<DirectionResponse> distanceAndDuration = serviceMapClient.driving(forecastPriceDTO);
         DirectionResponse data = distanceAndDuration.getData();
         log.info(data.toString());
-
-        log.info("读取计价规则");
         Map<String,Object> queryMap=new HashMap<>();
         queryMap.put("city_code","110000");
         queryMap.put("vehicle_type","1");
@@ -59,7 +55,6 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
             return ResponseResult.fail(CommonStatusEnum.PRICE_MULTIRULE_ERROR.getCode(),CommonStatusEnum.PRICE_MULTIRULE_ERROR.getValue());
         }
         log.info(priceRules.get(0).toString());
-        log.info("根据距离、时长 与计价规则计算价格");
         PriceRule priceRule = priceRules.get(0);
         Double price = PriceCount.getPrice(data.getDistance(), data.getDuration(), priceRule);
         log.info(price.toString());
@@ -68,3 +63,4 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
         return ResponseResult.success(forecastPriceResponse);
     }
 }
+
