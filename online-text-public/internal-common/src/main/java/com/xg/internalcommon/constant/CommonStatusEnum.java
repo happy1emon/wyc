@@ -7,6 +7,10 @@ import lombok.Getter;
 //定义枚举类
 
 public enum CommonStatusEnum {
+
+
+    MAP_DISTRICT_ERRO(1400,"请求地图错误"),
+
     /**
      * price rule empty code in [1300,1399]
      */

@@ -11,7 +11,7 @@ public class DictDistrict {
 
     private String parentAddressCode;
 
-    private String level;
+    private Integer level;
 
 
 }
