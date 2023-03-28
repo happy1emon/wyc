@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.DriverUserMapper">
+
+    <resultMap id="BaseResultMap" type="generator.DriverUser">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="address" column="address" jdbcType="CHAR"/>
+            <result property="driverName" column="driver_name" jdbcType="VARCHAR"/>
+            <result property="driverPhone" column="driver_phone" jdbcType="VARCHAR"/>
+            <result property="driverGender" column="driver_gender" jdbcType="TINYINT"/>
+            <result property="driverBirthday" column="driver_birthday" jdbcType="DATE"/>
+            <result property="driverNation" column="driver_nation" jdbcType="CHAR"/>
+            <result property="driverContactAddress" column="driver_contact_address" jdbcType="VARCHAR"/>
+            <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
+            <result property="getDriverLisenceDate" column="get_driver_lisence_date" jdbcType="DATE"/>
+            <result property="driverLicenseOn" column="driver_license_on" jdbcType="DATE"/>
+            <result property="driverLicenseOff" column="driver_license_off" jdbcType="DATE"/>
+            <result property="taxiDriver" column="taxi_driver" jdbcType="TINYINT"/>
+            <result property="certificateNo" column="certificate_no" jdbcType="VARCHAR"/>
+            <result property="networkCarIssueOrganization" column="network_car_issue_organization" jdbcType="VARCHAR"/>
+            <result property="networkCarIssueDate" column="network_car_issue_date" jdbcType="DATE"/>
+            <result property="getNetworkCarProofDate" column="get_network_car_proof_date" jdbcType="DATE"/>
+            <result property="networkCarProofOn" column="network_car_proof_on" jdbcType="DATE"/>
+            <result property="networkCarProofOff" column="network_car_proof_off" jdbcType="DATE"/>
+            <result property="registerDate" column="register_date" jdbcType="DATE"/>
+            <result property="commercialType" column="commercial_type" jdbcType="TINYINT"/>
+            <result property="contractCompany" column="contract_company" jdbcType="VARCHAR"/>
+            <result property="contractOn" column="contract_on" jdbcType="DATE"/>
+            <result property="contractOff" column="contract_off" jdbcType="DATE"/>
+            <result property="state" column="state" jdbcType="TINYINT"/>
+            <result property="flage" column="flage" jdbcType="TINYINT"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,address,driver_name,
+        driver_phone,driver_gender,driver_birthday,
+        driver_nation,driver_contact_address,license_id,
+        get_driver_lisence_date,driver_license_on,driver_license_off,
+        taxi_driver,certificate_no,network_car_issue_organization,
+        network_car_issue_date,get_network_car_proof_date,network_car_proof_on,
+        network_car_proof_off,register_date,commercial_type,
+        contract_company,contract_on,contract_off,
+        state,flage,update_time
+    </sql>
+</mapper>

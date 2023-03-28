@@ -6,16 +6,12 @@ import com.xg.internalcommon.dto.DictDistrict;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.servicemap.mapper.DictDistrictMapper;
 import com.xg.servicemap.remote.MapDicDistrictClient;
-import com.xg.servicemap.remote.MapDirectionClient;
 import com.xg.servicemap.service.DictDistrictService;
-import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.kerberos.KerberosKey;
 
 @Service
 public class DictDistrictServiceImpl implements DictDistrictService {
