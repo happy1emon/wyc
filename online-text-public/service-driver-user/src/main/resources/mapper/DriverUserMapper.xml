@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xg.servicedriveruser.mapper.DriverUserMapper">
 
-    <resultMap id="BaseResultMap" type="com.xg.servicedriveruser.dto.DriverUser">
+    <resultMap id="BaseResultMap" type="com.xg.internalcommon.dto.DriverUser">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="address" column="address" jdbcType="CHAR"/>
             <result property="driverName" column="driver_name" jdbcType="VARCHAR"/>

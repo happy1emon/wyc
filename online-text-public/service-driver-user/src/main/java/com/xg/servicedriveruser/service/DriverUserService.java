@@ -1,7 +1,7 @@
 package com.xg.servicedriveruser.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xg.internalcommon.dto.ResponseResult;
-import com.xg.servicedriveruser.dto.DriverUser;
+import com.xg.internalcommon.dto.DriverUser;
 
 /**
 * @author junxuan
@@ -11,4 +11,5 @@ import com.xg.servicedriveruser.dto.DriverUser;
 public interface DriverUserService extends IService<DriverUser> {
 
     ResponseResult testGetDriverUser();
+    ResponseResult addDriverUser(DriverUser driverUser);
 }

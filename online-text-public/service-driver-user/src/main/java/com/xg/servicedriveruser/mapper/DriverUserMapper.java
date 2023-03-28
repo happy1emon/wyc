@@ -1,6 +1,6 @@
 package com.xg.servicedriveruser.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xg.servicedriveruser.dto.DriverUser;
+import com.xg.internalcommon.dto.DriverUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

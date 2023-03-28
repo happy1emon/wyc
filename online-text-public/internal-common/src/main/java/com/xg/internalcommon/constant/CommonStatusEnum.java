@@ -28,7 +28,8 @@ public enum CommonStatusEnum {
     /**
      * 失败
      */
-    FAIL(0,"fail"), USER_NOT_EXISTS(1200, "当前用户不存在"),
+    FAIL(0,"fail"),
+    USER_NOT_EXISTS(1200, "当前用户不存在"),
     /**
      * code in [2000,2100]
      */
