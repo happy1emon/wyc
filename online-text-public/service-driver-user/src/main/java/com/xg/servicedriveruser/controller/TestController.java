@@ -1,11 +1,9 @@
 package com.xg.servicedriveruser.controller;
 
 import com.xg.internalcommon.dto.ResponseResult;
-import com.xg.servicedriveruser.mapper.DriverUserMapper;
 import com.xg.servicedriveruser.service.DriverUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
