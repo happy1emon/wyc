@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -44,7 +46,7 @@ public class DriverUser implements Serializable {
     /**
      * 出生日期
      */
-    private Date driverBirthday;
+    private LocalDate driverBirthday;
 
     /**
      * 民族
@@ -64,17 +66,17 @@ public class DriverUser implements Serializable {
     /**
      * 初次领取驾证日期
      */
-    private Date getDriverLisenceDate;
+    private LocalDate getDriverLisenceDate;
 
     /**
      * 驾驶证有效期起始
      */
-    private Date driverLicenseOn;
+    private LocalDate driverLicenseOn;
 
     /**
      * 驾驶证有效期截止
      */
-    private Date driverLicenseOff;
+    private LocalDate driverLicenseOff;
 
     /**
      * 是否巡游出租车 1是0否
@@ -94,27 +96,27 @@ public class DriverUser implements Serializable {
     /**
      * 发证日期
      */
-    private Date networkCarIssueDate;
+    private LocalDate networkCarIssueDate;
 
     /**
      * 初次领取资格证日期
      */
-    private Date getNetworkCarProofDate;
+    private LocalDate getNetworkCarProofDate;
 
     /**
      * 有效期
      */
-    private Date networkCarProofOn;
+    private LocalDate networkCarProofOn;
 
     /**
      * 截止日期
      */
-    private Date networkCarProofOff;
+    private LocalDate networkCarProofOff;
 
     /**
      * 报备日期
      */
-    private Date registerDate;
+    private LocalDate registerDate;
 
     /**
      * 服务类型 1网络预约出租车2巡游出租汽车3私人小客车合乘
@@ -129,12 +131,12 @@ public class DriverUser implements Serializable {
     /**
      * 合同期起
      */
-    private Date contractOn;
+    private LocalDate contractOn;
 
     /**
      * 合同期止
      */
-    private Date contractOff;
+    private LocalDate contractOff;
 
     /**
      * 状态 0：有效 1：失效
@@ -144,12 +146,12 @@ public class DriverUser implements Serializable {
     /**
      * 操作标识 1：新增 2：更新 3：删除
      */
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
     /**
      * 更新时间
      */
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
