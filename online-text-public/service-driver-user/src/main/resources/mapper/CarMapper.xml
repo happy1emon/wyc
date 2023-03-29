@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CarMapper">
+
+    <resultMap id="BaseResultMap" type=".dto.Car">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="address" column="address" jdbcType="CHAR"/>
+            <result property="vehicleNo" column="vehicle_no" jdbcType="VARCHAR"/>
+            <result property="plateColor" column="plate_color" jdbcType="CHAR"/>
+            <result property="seats" column="seats" jdbcType="INTEGER"/>
+            <result property="brand" column="brand" jdbcType="VARCHAR"/>
+            <result property="model" column="model" jdbcType="VARCHAR"/>
+            <result property="vehicleType" column="vehicle_type" jdbcType="VARCHAR"/>
+            <result property="ownerName" column="owner_name" jdbcType="VARCHAR"/>
+            <result property="vehicleColor" column="vehicle_color" jdbcType="CHAR"/>
+            <result property="engineId" column="engine_id" jdbcType="VARCHAR"/>
+            <result property="vin" column="vin" jdbcType="VARCHAR"/>
+            <result property="certifyDateA" column="certify_date_a" jdbcType="DATE"/>
+            <result property="fuelType" column="fuel_type" jdbcType="VARCHAR"/>
+            <result property="engineDisplace" column="engine_displace" jdbcType="VARCHAR"/>
+            <result property="transAgency" column="trans_agency" jdbcType="VARCHAR"/>
+            <result property="transArea" column="trans_area" jdbcType="VARCHAR"/>
+            <result property="transDateStart" column="trans_date_start" jdbcType="DATE"/>
+            <result property="transDateEnd" column="trans_date_end" jdbcType="DATE"/>
+            <result property="certifyDateB" column="certify_date_b" jdbcType="DATE"/>
+            <result property="fixState" column="fix_state" jdbcType="CHAR"/>
+            <result property="nextFixDate" column="next_fix_date" jdbcType="DATE"/>
+            <result property="checkState" column="check_state" jdbcType="CHAR"/>
+            <result property="feePrintId" column="fee_print_id" jdbcType="VARCHAR"/>
+            <result property="gpsBrand" column="gps_brand" jdbcType="VARCHAR"/>
+            <result property="gpsModel" column="gps_model" jdbcType="VARCHAR"/>
+            <result property="gpsInstallDate" column="gps_install_date" jdbcType="DATE"/>
+            <result property="registerDate" column="register_date" jdbcType="DATE"/>
+            <result property="commercialType" column="commercial_type" jdbcType="VARCHAR"/>
+            <result property="fareType" column="fare_type" jdbcType="VARCHAR"/>
+            <result property="state" column="state" jdbcType="TINYINT"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,address,vehicle_no,
+        plate_color,seats,brand,
+        model,vehicle_type,owner_name,
+        vehicle_color,engine_id,vin,
+        certify_date_a,fuel_type,engine_displace,
+        trans_agency,trans_area,trans_date_start,
+        trans_date_end,certify_date_b,fix_state,
+        next_fix_date,check_state,fee_print_id,
+        gps_brand,gps_model,gps_install_date,
+        register_date,commercial_type,fare_type,
+        state,gmt_create,gmt_modified
+    </sql>
+</mapper>

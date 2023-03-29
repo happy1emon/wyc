@@ -7,7 +7,7 @@
           <GenerateConfig>
             <option name="annotationType" value="MYBATIS_PLUS3" />
             <option name="basePackage" value="" />
-            <option name="basePath" value="src/main/java/com/xg/servicepassengeruser" />
+            <option name="basePath" value="src/main/java/com/xg/servicedriveruser" />
             <option name="classNameStrategy" value="camel" />
             <option name="encoding" value="UTF-8" />
             <option name="extraClassSuffix" value="" />
@@ -27,7 +27,7 @@
                   <option name="fileName" value="${domain.fileName}Mapper" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Mapper.java" />
                   <option name="modulePath" value="$PROJECT_DIR$/service-driver-user" />
-                  <option name="packageName" value="${domain.basePackage}.mapper" />
+                  <option name="packageName" value="mapper" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
                   <option name="basePath" value="src/main/resources" />
@@ -47,7 +47,7 @@
                   <option name="fileName" value="${domain.fileName}ServiceImpl" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}ServiceImpl.java" />
                   <option name="modulePath" value="$PROJECT_DIR$/service-driver-user" />
-                  <option name="packageName" value="${domain.basePackage}.service.impl" />
+                  <option name="packageName" value="service.impl" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
                   <option name="basePath" value="${domain.basePath}" />
@@ -57,11 +57,10 @@
                   <option name="fileName" value="${domain.fileName}Service" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Service.java" />
                   <option name="modulePath" value="$PROJECT_DIR$/service-driver-user" />
-                  <option name="packageName" value="${domain.basePackage}.service" />
+                  <option name="packageName" value="service" />
                 </ModuleInfoGo>
               </list>
             </option>
-            <option name="needToStringHashcodeEquals" value="true" />
             <option name="needsComment" value="true" />
             <option name="needsModel" value="true" />
             <option name="relativePackage" value="dto" />
@@ -69,8 +68,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="DriverUser" />
-                  <option name="tableName" value="driver_user" />
+                  <option name="className" value="Car" />
+                  <option name="tableName" value="car" />
                 </TableUIInfo>
               </list>
             </option>
