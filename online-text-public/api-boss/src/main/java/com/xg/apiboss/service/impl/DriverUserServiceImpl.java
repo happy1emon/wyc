@@ -21,4 +21,9 @@ public class DriverUserServiceImpl implements DriverUserService {
     public ResponseResult addDriverUser(DriverUser driverUser) {
         return serviceDriverUserClient.addDriverUser(driverUser);
     }
+
+    @Override
+    public ResponseResult updateDriverUser(DriverUser driverUser) {
+        return serviceDriverUserClient.updateDriverUser(driverUser);
+    }
 }

@@ -12,5 +12,6 @@ import java.sql.Driver;
 public interface DriverUserService {
 
     ResponseResult addDriverUser(DriverUser driverUser);
+    ResponseResult updateDriverUser(DriverUser driverUser);
 
 }

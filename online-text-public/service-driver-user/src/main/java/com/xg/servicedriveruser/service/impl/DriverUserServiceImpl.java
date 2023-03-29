@@ -40,6 +40,14 @@ public class DriverUserServiceImpl extends ServiceImpl<DriverUserMapper, DriverU
         }
         return ResponseResult.fail(CommonStatusEnum.FAIL);
     }
+
+    @Override
+    public ResponseResult updateDriverUser(DriverUser driverUser) {
+        LocalDateTime now=LocalDateTime.now();
+        driverUser.setGmtModified(now);
+        driverUserMapper.updateById(driverUser);
+        return ResponseResult.success();
+    }
 }
 
 
