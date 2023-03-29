@@ -1,6 +1,7 @@
 package com.xg.apiboss.remote;
 
 import com.xg.apiboss.service.DriverUserService;
+import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.dto.ResponseResult;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,5 +19,8 @@ public interface ServiceDriverUserClient {
     ResponseResult addDriverUser(@RequestBody DriverUser driverUser);
 
     @RequestMapping(method = RequestMethod.PUT,value ="/user")
-    ResponseResult updateDriverUser(DriverUser driverUser);
+    ResponseResult updateDriverUser(@RequestBody DriverUser driverUser);
+
+    @RequestMapping(method = RequestMethod.POST,value="/car")
+    ResponseResult addCar(@RequestBody Car car);
 }

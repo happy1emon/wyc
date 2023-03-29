@@ -20,7 +20,7 @@ public class Car implements Serializable {
     /**
      * 
      */
-    @TableId(type = IdType.AUTO)
+//    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

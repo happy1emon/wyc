@@ -68,8 +68,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="Car" />
-                  <option name="tableName" value="car" />
+                  <option name="className" value="DriverCarBindingRelationship" />
+                  <option name="tableName" value="driver_car_binding_relationship" />
                 </TableUIInfo>
               </list>
             </option>

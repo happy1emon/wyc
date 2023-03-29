@@ -9,6 +9,12 @@ import lombok.Getter;
 public enum CommonStatusEnum {
 
 
+    DRIVER_CAR_BIND_NOT_EXISTS(1500,"司机和车辆绑定关系不存在"),
+    DRIVER_NOT_EXISTS(1501,"司机不存在"),
+    DRIVER_CAR_BIND_EXISTS(1502,"司机和车辆绑定关系已经存在"),
+    DRIVER_HAS_BOUND_ERORR(1503,"该司机已有绑定车辆"),
+    CAR_HAS_BOUND_ERORR(1504,"车辆已被绑定过"),
+    DRIVER_CAR_BIND_NOT_EXIST(1505,"绑定关系不存在"),
     MAP_DISTRICT_ERRO(1400,"请求地图错误"),
 
     /**

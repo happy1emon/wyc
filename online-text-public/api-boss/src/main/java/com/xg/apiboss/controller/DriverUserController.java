@@ -1,6 +1,7 @@
 package com.xg.apiboss.controller;
 
 import com.xg.apiboss.service.DriverUserService;
+import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.dto.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,11 @@ public class DriverUserController {
     @PutMapping("/driver-user")
     public ResponseResult updateDriverUser(@RequestBody DriverUser driverUser){
         return driverUserService.updateDriverUser(driverUser);
+    }
+
+    @PostMapping("/car")
+    public ResponseResult addCar(@RequestBody Car car){
+        return driverUserService.addCar(car);
     }
 
 

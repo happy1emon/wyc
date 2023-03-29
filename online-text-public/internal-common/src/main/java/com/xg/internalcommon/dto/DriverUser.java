@@ -20,7 +20,7 @@ public class DriverUser implements Serializable {
     /**
      * 
      */
-    @TableId(type = IdType.AUTO)
+//    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

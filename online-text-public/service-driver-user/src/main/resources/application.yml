@@ -13,3 +13,9 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+logging:
+  level:
+    com.baomidou.mybatisplus: debug
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

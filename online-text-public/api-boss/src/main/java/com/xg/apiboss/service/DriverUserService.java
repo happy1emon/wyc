@@ -1,5 +1,6 @@
 package com.xg.apiboss.service;
 
+import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.dto.ResponseResult;
 
@@ -14,4 +15,5 @@ public interface DriverUserService {
     ResponseResult addDriverUser(DriverUser driverUser);
     ResponseResult updateDriverUser(DriverUser driverUser);
 
+    ResponseResult addCar(Car car);
 }
