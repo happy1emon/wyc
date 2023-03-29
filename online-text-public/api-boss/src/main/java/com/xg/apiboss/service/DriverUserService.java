@@ -15,5 +15,5 @@ public interface DriverUserService {
     ResponseResult addDriverUser(DriverUser driverUser);
     ResponseResult updateDriverUser(DriverUser driverUser);
 
-    ResponseResult addCar(Car car);
+
 }

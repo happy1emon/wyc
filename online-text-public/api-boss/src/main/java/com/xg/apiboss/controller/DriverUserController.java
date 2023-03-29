@@ -1,5 +1,6 @@
 package com.xg.apiboss.controller;
 
+import com.xg.apiboss.service.CarService;
 import com.xg.apiboss.service.DriverUserService;
 import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.DriverUser;
@@ -33,10 +34,11 @@ public class DriverUserController {
     public ResponseResult updateDriverUser(@RequestBody DriverUser driverUser){
         return driverUserService.updateDriverUser(driverUser);
     }
-
+    @Autowired
+    private CarService carService;
     @PostMapping("/car")
     public ResponseResult addCar(@RequestBody Car car){
-        return driverUserService.addCar(car);
+        return carService.addCar(car);
     }
 
 
