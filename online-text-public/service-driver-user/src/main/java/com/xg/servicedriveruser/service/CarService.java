@@ -1,7 +1,10 @@
-package service;
 
-import .dto.Car;
+package com.xg.servicedriveruser.service;
+
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xg.internalcommon.dto.Car;
+import com.xg.internalcommon.dto.ResponseResult;
 
 /**
 * @author junxuan
@@ -10,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CarService extends IService<Car> {
 
+    ResponseResult addCar(Car car);
 }

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -79,7 +81,7 @@ public class Car implements Serializable {
     /**
      * 车辆注册日期
      */
-    private Date certifyDateA;
+    private LocalDate certifyDateA;
 
     /**
      * 车辆燃料类型（1：汽油，2：柴油，3：天然气，4：液化气 ，5：电动，9：其他）
@@ -104,17 +106,17 @@ public class Car implements Serializable {
     /**
      * 车辆运输证有效期起
      */
-    private Date transDateStart;
+    private LocalDate transDateStart;
 
     /**
      * 车辆运输证有效期止
      */
-    private Date transDateEnd;
+    private LocalDate transDateEnd;
 
     /**
      * 车辆初次登记日期
      */
-    private Date certifyDateB;
+    private LocalDate certifyDateB;
 
     /**
      * 车辆检修状态（0：未检修，1：已检修，2：未知）
@@ -124,7 +126,7 @@ public class Car implements Serializable {
     /**
      * 车辆下次年检时间
      */
-    private Date nextFixDate;
+    private LocalDate nextFixDate;
 
     /**
      * 车辆年度审验状态（0：未年审 1：合格 2：不合格）
@@ -149,12 +151,12 @@ public class Car implements Serializable {
     /**
      * 卫星定位设备安装日期
      */
-    private Date gpsInstallDate;
+    private LocalDate gpsInstallDate;
 
     /**
      * 报备日期
      */
-    private Date registerDate;
+    private LocalDate registerDate;
 
     /**
      * 运价类型编码
@@ -174,12 +176,12 @@ public class Car implements Serializable {
     /**
      * 
      */
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
     /**
      * 
      */
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

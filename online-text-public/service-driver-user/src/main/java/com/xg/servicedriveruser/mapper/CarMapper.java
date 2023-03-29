@@ -1,7 +1,8 @@
-package mapper;
+package com.xg.servicedriveruser.mapper;
 
-import .dto.Car;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xg.internalcommon.dto.Car;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @author junxuan
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2023-03-29 15:37:33
 * @Entity .dto.Car
 */
+@Mapper
 public interface CarMapper extends BaseMapper<Car> {
 
 }
