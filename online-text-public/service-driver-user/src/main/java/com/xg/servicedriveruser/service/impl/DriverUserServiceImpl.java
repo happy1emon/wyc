@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.constant.DriverCarConstants;
+import com.xg.internalcommon.constant.DriverWorkStatusConstants;
+import com.xg.internalcommon.dto.DriverUserWorkStatus;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.servicedriveruser.mapper.DriverUserMapper;
+import com.xg.servicedriveruser.mapper.DriverUserWorkStatusMapper;
 import com.xg.servicedriveruser.service.DriverUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,9 @@ public class DriverUserServiceImpl extends ServiceImpl<DriverUserMapper, DriverU
     @Autowired
     private DriverUserMapper driverUserMapper;
 
+    @Autowired
+    private DriverUserWorkStatusMapper driverUserWorkStatusMapper;
+
     @Override
     public ResponseResult testGetDriverUser() {
         DriverUser driverUser = driverUserMapper.selectById(2);
@@ -38,7 +44,15 @@ public class DriverUserServiceImpl extends ServiceImpl<DriverUserMapper, DriverU
         driverUser.setGmtCreate(LocalDateTime.now());
         driverUser.setGmtModified(LocalDateTime.now());
         int insert = driverUserMapper.insert(driverUser);
-        if (insert == 1) {
+        //初始化司机工作状态表
+        DriverUserWorkStatus driverUserWorkStatus=new DriverUserWorkStatus();
+        driverUserWorkStatus.setDriverId(driverUser.getId());
+        driverUserWorkStatus.setWorkStatus(DriverWorkStatusConstants.OFFLINE);
+        driverUserWorkStatus.setGmtCreate(LocalDateTime.now());
+        driverUserWorkStatus.setGmtModified(LocalDateTime.now());
+        insert+=driverUserWorkStatusMapper.insert(driverUserWorkStatus);
+
+        if (insert == 2) {
             return ResponseResult.success();
         }
         return ResponseResult.fail(CommonStatusEnum.FAIL);

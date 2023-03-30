@@ -6,11 +6,16 @@ import com.xg.apidriver.service.VerificationCodeService;
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.constant.DriverCarConstants;
 import com.xg.internalcommon.constant.IdentityConstant;
+import com.xg.internalcommon.constant.TokenConstants;
 import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.request.VerificationCodeDTO;
 import com.xg.internalcommon.response.DriverUserExistsResponse;
 import com.xg.internalcommon.response.NumberCodeResponse;
+import com.xg.internalcommon.response.TokenResponse;
+import com.xg.internalcommon.utils.JwtUtils;
 import com.xg.internalcommon.utils.RedisPrefixUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -55,8 +60,37 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         //4 存入redis
         String key = RedisPrefixUtils.generatorKeyByPhone(queryDriverPhone, IdentityConstant.DRIVER_IDENTITY);
         stringRedisTemplate.opsForValue().set(key,numberCode+"",2, TimeUnit.MINUTES);
-
-
         return ResponseResult.success("");
+    }
+
+    @Override
+    public ResponseResult checkVerificationCode(String driverPhone, String verificationCode, String driverIdentity) {
+        //生成Key
+        String key = RedisPrefixUtils.generatorKeyByPhone(driverPhone, driverIdentity);
+        //获取value
+        String codeRedis = stringRedisTemplate.opsForValue().get(key);
+        //校验
+        if (StringUtils.isBlank(codeRedis)) {
+            return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(), CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
+        }
+        if (!verificationCode.trim().equals(codeRedis.trim())) {
+            return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(), CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
+        }
+
+        // 颁发令牌
+        //要定义枚举类型来定义司机和乘客 不应该用魔法值
+        String accessToken = JwtUtils.generatorToken(driverPhone, IdentityConstant.DRIVER_IDENTITY, TokenConstants.ACCESS_TOKEN_TYPE);
+        String refreshToken = JwtUtils.generatorToken(driverPhone, IdentityConstant.DRIVER_IDENTITY, TokenConstants.REFRESH_TOKEN_TYPE);
+        //将accesstoken存到redis中
+        String accessTokenkey = RedisPrefixUtils.generatorTokenKey(driverPhone, IdentityConstant.DRIVER_IDENTITY, TokenConstants.ACCESS_TOKEN_TYPE);
+        stringRedisTemplate.opsForValue().set(accessTokenkey, accessToken, 30, TimeUnit.DAYS);
+        //将refreshToken存到redis中  且要比accessToken晚失效
+        String refreshTokenkey = RedisPrefixUtils.generatorTokenKey(driverPhone, IdentityConstant.DRIVER_IDENTITY, TokenConstants.REFRESH_TOKEN_TYPE);
+        stringRedisTemplate.opsForValue().set(refreshTokenkey, refreshToken, 31, TimeUnit.DAYS);
+        //响应
+        TokenResponse toeknResponse = new TokenResponse();
+        toeknResponse.setAccessToken(accessToken);
+        toeknResponse.setRefreshToken(refreshToken);
+        return ResponseResult.success(toeknResponse);
     }
 }

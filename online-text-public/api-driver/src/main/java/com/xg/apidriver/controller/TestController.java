@@ -16,4 +16,22 @@ public class TestController {
     public static ResponseResult test(){
         return ResponseResult.success();
     }
+
+    /**
+     * 需要授权的接口
+     * @return
+     */
+    @GetMapping("/auth")
+    public String testAuth(){
+        return "auth!!!!";
+    }
+
+    /**
+     * 不需要授权的接口
+     * @return
+     */
+    @GetMapping("/noauth")
+    public String testNoauth(){
+        return "noauth!!";
+    }
 }

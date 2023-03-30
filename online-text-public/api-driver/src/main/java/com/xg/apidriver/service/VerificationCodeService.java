@@ -11,4 +11,5 @@ public interface VerificationCodeService {
 
     ResponseResult<NumberCodeResponse> checkAndSendVerificationCode(String driverPhone);
 
+    ResponseResult checkVerificationCode(String driverPhone, String verificationCode, String driverIdentity);
 }
