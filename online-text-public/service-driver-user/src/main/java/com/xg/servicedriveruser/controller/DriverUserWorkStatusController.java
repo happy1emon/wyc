@@ -21,6 +21,7 @@ public class DriverUserWorkStatusController {
     public ResponseResult changeWokeStatus(@RequestBody DriverUserWorkStatus driverUserWorkStatus){
         Integer workStatus = driverUserWorkStatus.getWorkStatus();
         Long driverId = driverUserWorkStatus.getDriverId();
+
         return driverUserWorkStatusService.changeWorkStatus(driverId,workStatus);
     }
 }
