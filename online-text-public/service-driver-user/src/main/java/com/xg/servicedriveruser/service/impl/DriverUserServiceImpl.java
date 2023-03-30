@@ -1,8 +1,10 @@
 package com.xg.servicedriveruser.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xg.internalcommon.constant.CommonStatusEnum;
+import com.xg.internalcommon.constant.DriverCarConstants;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.servicedriveruser.mapper.DriverUserMapper;
@@ -10,6 +12,7 @@ import com.xg.servicedriveruser.service.DriverUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 /**
@@ -47,6 +50,20 @@ public class DriverUserServiceImpl extends ServiceImpl<DriverUserMapper, DriverU
         driverUser.setGmtModified(now);
         driverUserMapper.updateById(driverUser);
         return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult<DriverUser> queryDriverPhone(String driverPhone) {
+        QueryWrapper<DriverUser> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("driver_phone",driverPhone);
+        queryWrapper.eq("state", DriverCarConstants.DRIVER_STATE_VALID);
+        List<DriverUser> driverUsers = driverUserMapper.selectList(queryWrapper);
+        if(driverUsers.size()==0){
+            return ResponseResult.fail(CommonStatusEnum.DRIVER_NOT_EXISTS.getCode(),
+                    CommonStatusEnum.DRIVER_NOT_EXISTS.getValue());
+        }
+        DriverUser driverUser=driverUsers.get(0);
+        return ResponseResult.success(driverUser);
     }
 }
 

@@ -2,15 +2,13 @@ package com.xg.servicedriveruser.controller;
 
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.DriverUser;
+import com.xg.internalcommon.response.DriverUserExistsResponse;
 import com.xg.servicedriveruser.service.DriverUserService;
-import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -29,6 +27,20 @@ public class UserController {
     public ResponseResult updateUser(@RequestBody DriverUser driverUser){
         log.info(JSONObject.fromObject(driverUser).toString());
         return driverUserService.updateDriverUser(driverUser);
+    }
+
+    @GetMapping("/check-driver/{driverPhone}")
+    public ResponseResult<DriverUser> getUser(@PathVariable("driverPhone") String driverPhone){
+        ResponseResult<DriverUser> driver = driverUserService.queryDriverPhone(driverPhone);
+        DriverUser driver1 = driver.getData();
+        int ifExists=1;
+        if (driver1 == null){
+            ifExists=0;
+        }
+        DriverUserExistsResponse response=new DriverUserExistsResponse();
+        response.setIfExists(ifExists);
+        response.setDriverPhone(driverPhone);
+        return ResponseResult.success(response);
     }
 
 

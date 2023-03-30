@@ -1,8 +1,10 @@
 package com.xg.apiboss.controller;
 
 import com.xg.apiboss.service.CarService;
+import com.xg.apiboss.service.DriverCarRelationshipService;
 import com.xg.apiboss.service.DriverUserService;
 import com.xg.internalcommon.dto.Car;
+import com.xg.internalcommon.dto.DriverCarBindingRelationship;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.dto.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,17 @@ public class DriverUserController {
     @PostMapping("/car")
     public ResponseResult addCar(@RequestBody Car car){
         return carService.addCar(car);
+    }
+
+    @Autowired
+    private DriverCarRelationshipService driverCarRelationshipService;
+    @PostMapping("/driver-car-binding-relationship/bind")
+    public ResponseResult bind(@RequestBody DriverCarBindingRelationship driverCarBindingRelationship){
+        return driverCarRelationshipService.driverCarBind(driverCarBindingRelationship);
+    }
+    @PostMapping("/driver-car-binding-relationship/unbind")
+    public ResponseResult unbind(@RequestBody DriverCarBindingRelationship driverCarBindingRelationship){
+        return driverCarRelationshipService.driverCarUnbind(driverCarBindingRelationship);
     }
 
 

@@ -13,4 +13,5 @@ public interface DriverUserService extends IService<DriverUser> {
     ResponseResult testGetDriverUser();
     ResponseResult addDriverUser(DriverUser driverUser);
     ResponseResult updateDriverUser(DriverUser driverUser);
+    ResponseResult<DriverUser> queryDriverPhone(String driverPhone);
 }

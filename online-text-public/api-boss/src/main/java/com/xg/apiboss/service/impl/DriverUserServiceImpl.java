@@ -2,7 +2,6 @@ package com.xg.apiboss.service.impl;
 
 import com.xg.apiboss.remote.ServiceDriverUserClient;
 import com.xg.apiboss.service.DriverUserService;
-import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.dto.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
