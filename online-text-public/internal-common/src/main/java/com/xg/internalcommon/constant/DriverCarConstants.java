@@ -24,5 +24,13 @@ public class DriverCarConstants {
      */
     public static final int DRIVER_STATE_INVALID = 0;
 
+    /**
+     * 存在
+     */
+    public static final int DRIVER_EXISTS = 1;
+    /**
+     * 不存在
+     */
+    public static final int DRIVER_NOT_EXISTS = 0;
 
 }

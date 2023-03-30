@@ -23,7 +23,6 @@ public class VerificationCodeController {
     private VerificationCodeService verificationCodeService;
     @GetMapping("/verification-code")
     public ResponseResult verificationCode(@RequestBody VerificationCodeDTO verificationCodeDTO){
-
         String driverPhone= verificationCodeDTO.getDriverPhone();
         log.info("司机的号码: "+driverPhone);
         return verificationCodeService.checkAndSendVerificationCode(driverPhone);

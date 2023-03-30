@@ -1,12 +1,12 @@
 package com.xg.servicedriveruser.controller;
 
+import com.xg.internalcommon.constant.DriverCarConstants;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.response.DriverUserExistsResponse;
 import com.xg.servicedriveruser.service.DriverUserService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +33,9 @@ public class UserController {
     public ResponseResult<DriverUser> getUser(@PathVariable("driverPhone") String driverPhone){
         ResponseResult<DriverUser> driver = driverUserService.queryDriverPhone(driverPhone);
         DriverUser driver1 = driver.getData();
-        int ifExists=1;
+        int ifExists= DriverCarConstants.DRIVER_EXISTS;
         if (driver1 == null){
-            ifExists=0;
+            ifExists=DriverCarConstants.DRIVER_NOT_EXISTS;
         }
         DriverUserExistsResponse response=new DriverUserExistsResponse();
         response.setIfExists(ifExists);

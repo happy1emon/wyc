@@ -1,6 +1,7 @@
 package com.xg.apidriver.service;
 
 import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.response.NumberCodeResponse;
 
 /**
  * @USER: XGGG
@@ -8,6 +9,6 @@ import com.xg.internalcommon.dto.ResponseResult;
  */
 public interface VerificationCodeService {
 
-    ResponseResult checkAndSendVerificationCode(String driverPhone);
+    ResponseResult<NumberCodeResponse> checkAndSendVerificationCode(String driverPhone);
 
 }
