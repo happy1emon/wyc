@@ -5,14 +5,19 @@ import com.xg.apidriver.remote.ServiceVerificationCodeClient;
 import com.xg.apidriver.service.VerificationCodeService;
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.constant.DriverCarConstants;
+import com.xg.internalcommon.constant.IdentityConstant;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.response.DriverUserExistsResponse;
 import com.xg.internalcommon.response.NumberCodeResponse;
+import com.xg.internalcommon.utils.RedisPrefixUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @USER: XGGG
@@ -27,6 +32,9 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 
     @Autowired
     private ServiceVerificationCodeClient serviceVerificationCodeClient;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public ResponseResult checkAndSendVerificationCode(String driverPhone) {
@@ -44,9 +52,10 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 //        int numberCode = data.getNumberCode();
         log.info("验证码为： "+numberCode);
         //3 调用第三方发送验证码
-
-
         //4 存入redis
+        String key = RedisPrefixUtils.generatorKeyByPhone(queryDriverPhone, IdentityConstant.DRIVER_IDENTITY);
+        stringRedisTemplate.opsForValue().set(key,numberCode+"",2, TimeUnit.MINUTES);
+
 
         return ResponseResult.success("");
     }
