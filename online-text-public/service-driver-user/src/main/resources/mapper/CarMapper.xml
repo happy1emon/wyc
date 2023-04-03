@@ -37,6 +37,8 @@
             <result property="fareType" column="fare_type" jdbcType="VARCHAR"/>
             <result property="state" column="state" jdbcType="TINYINT"/>
             <result property="tid" column="tid" jdbcType="VARCHAR"/>
+            <result property="trid" column="trid" jdbcType="VARCHAR"/>
+            <result property="trname" column="trname" jdbcType="VARCHAR"/>
             <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
             <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -52,6 +54,6 @@
         next_fix_date,check_state,fee_print_id,
         gps_brand,gps_model,gps_install_date,
         register_date,commercial_type,fare_type,
-        state,tid,gmt_create,gmt_modified
+        state,tid,trid,trname,gmt_create,gmt_modified
     </sql>
 </mapper>

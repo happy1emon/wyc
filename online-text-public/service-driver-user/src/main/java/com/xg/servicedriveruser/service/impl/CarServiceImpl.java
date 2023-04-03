@@ -7,6 +7,7 @@ import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.response.TerminalResponse;
+import com.xg.internalcommon.response.TrackResponse;
 import com.xg.servicedriveruser.mapper.CarMapper;
 import com.xg.servicedriveruser.remote.ServiceMapClient;
 import com.xg.servicedriveruser.service.CarService;
@@ -42,6 +43,11 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarSe
         car.setTid(tid);
 
         // 获得此车辆的轨迹id :trid
+        ResponseResult<TrackResponse> trackResponseResponseResult = serviceMapClient.addTrack(tid);
+        String trid = trackResponseResponseResult.getData().getTrid();
+        String trname = trackResponseResponseResult.getData().getTrname();
+        car.setTrid(trid);
+        car.setTrname(trname);
 
         int insert = carMapper.insert(car);
         if (insert==1){

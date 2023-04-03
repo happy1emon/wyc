@@ -177,6 +177,10 @@ public class Car implements Serializable {
      */
     private String tid;
 
+    private String trid;
+
+    private String trname;
+
     /**
      * 
      */
