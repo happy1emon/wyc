@@ -4,6 +4,15 @@ public class AmapConfigConstants {
 
     public static final String DIRECTION_URL="https://restapi.amap.com/v3/direction/driving";
     public static final String DISTRICT_URL="https://restapi.amap.com/v3/config/district";
+    /**
+     * 新增服务
+     */
+    public static final String SERVICE_ADD_URL="https://tsapi.amap.com/v1/track/service/add";
+    /**
+     * 向服务中添加终端信息
+     */
+    public static final String TERMINAL_ADD_URL="https://tsapi.amap.com/v1/track/terminal/add";
+
     //路径规划json Key值
     public static final String STATUS="status";
     public static final String ROUTE = "route";
