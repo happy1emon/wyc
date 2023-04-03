@@ -25,14 +25,14 @@ public class TerminalClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    public ResponseResult add(String terminalName){
+    public ResponseResult add(String name){
         StringBuilder url=new StringBuilder(AmapConfigConstants.TERMINAL_ADD_URL);
         url.append("?");
         url.append("key="+amapKey);
         url.append("&");
         url.append("sid="+amapSid);
         url.append("&");
-        url.append("name="+terminalName);
+        url.append("name="+name);
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url.toString(), null, String.class);
         String body = responseEntity.getBody();
@@ -40,7 +40,7 @@ public class TerminalClient {
         JSONObject data = jsonObject.getJSONObject("data");
         String tid = data.getString("tid");
         TerminalResponse terminalResponse=new TerminalResponse();
-        terminalResponse.setName(terminalName);
+        terminalResponse.setName(name);
         terminalResponse.setSid(amapSid);
         terminalResponse.setTid(tid);
         return ResponseResult.success(terminalResponse);

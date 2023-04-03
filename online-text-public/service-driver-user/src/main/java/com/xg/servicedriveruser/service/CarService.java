@@ -14,4 +14,6 @@ import com.xg.internalcommon.dto.ResponseResult;
 public interface CarService extends IService<Car> {
 
     ResponseResult addCar(Car car);
+
+
 }

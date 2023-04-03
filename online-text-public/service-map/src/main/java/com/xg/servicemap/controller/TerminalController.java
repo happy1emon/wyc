@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/terminal")
 public class TerminalController {
-
-
     @Autowired
     private TerminalService terminalService;
-
     /**
      * add terminal in service
      * @param name terminal name

@@ -17,8 +17,6 @@ public class CarController {
 
     @Autowired
     private CarService carService;
-
-
     @PostMapping("/car")
     public ResponseResult addCar(@RequestBody Car car){
         return carService.addCar(car);
