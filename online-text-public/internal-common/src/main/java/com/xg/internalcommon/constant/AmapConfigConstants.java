@@ -13,6 +13,8 @@ public class AmapConfigConstants {
      */
     public static final String TERMINAL_ADD_URL="https://tsapi.amap.com/v1/track/terminal/add";
 
+    public static final String TRACK_ADD_URL ="https://tsapi.amap.com/v1/track/trace/add";
+
     //路径规划json Key值
     public static final String STATUS="status";
     public static final String ROUTE = "route";
@@ -24,4 +26,5 @@ public class AmapConfigConstants {
     public static final String NAME = "name";
     public static final String LEVEL = "level";
     public static final String STREET="street";
+
 }
