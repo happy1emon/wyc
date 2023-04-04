@@ -1,13 +1,11 @@
 package com.xg.apidriver.remote;
 
+import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.response.DriverUserExistsResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Driver;
 
@@ -22,4 +20,7 @@ public interface ServiceDriverUserClient {
 
     @RequestMapping(method = RequestMethod.GET,value = "/check-driver/{driverPhone}")
     ResponseResult<DriverUserExistsResponse> checkDriverPhone(@PathVariable("driverPhone") String driverPhone);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/queryCarByCarId")
+    ResponseResult<Car> queryCarByCarId(@RequestParam Long carId);
 }

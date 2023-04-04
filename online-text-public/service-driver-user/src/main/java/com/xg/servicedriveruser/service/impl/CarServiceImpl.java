@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author junxuan
@@ -54,6 +57,14 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarSe
             return ResponseResult.success("car--Binding: "+car.getVehicleNo()+"-"+ tid+" success!");
         }
         return ResponseResult.fail(CommonStatusEnum.FAIL.getCode(),CommonStatusEnum.FAIL.getValue());
+    }
+
+    @Override
+    public ResponseResult<Car> queryCarByCarId(Long carId) {
+        Map<String,Object> map=new HashMap<>();
+        map.put("id",carId);
+        List<Car> cars = carMapper.selectByMap(map);
+        return ResponseResult.success(cars.get(0));
     }
 }
 

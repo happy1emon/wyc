@@ -16,4 +16,6 @@ public interface CarService extends IService<Car> {
     ResponseResult addCar(Car car);
 
 
+    ResponseResult<Car> queryCarByCarId(Long carId);
+
 }
