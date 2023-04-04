@@ -19,7 +19,7 @@ public class TerminalServiceImpl implements TerminalService {
     private TerminalClient terminalClient;
 
     @Override
-    public ResponseResult add(String name) {
-        return terminalClient.add(name);
+    public ResponseResult add(String name,String desc) {
+        return terminalClient.add(name,desc);
     }
 }

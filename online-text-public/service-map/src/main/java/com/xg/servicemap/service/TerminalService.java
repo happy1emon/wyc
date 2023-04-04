@@ -9,5 +9,5 @@ import com.xg.internalcommon.dto.ResponseResult;
 
 public interface TerminalService {
 
-    ResponseResult add(String terminalName);
+    ResponseResult add(String terminalName,String desc);
 }

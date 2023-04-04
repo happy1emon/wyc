@@ -9,7 +9,6 @@ import com.xg.internalcommon.request.ApiDriverPointRequest;
 import com.xg.internalcommon.request.PointRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @USER: XGGG

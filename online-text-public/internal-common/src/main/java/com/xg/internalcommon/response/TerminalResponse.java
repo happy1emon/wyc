@@ -8,7 +8,20 @@ import lombok.Data;
  */
 @Data
 public class TerminalResponse {
+    /**
+     * 终端名称
+     */
     private String name;
+    /**
+     * 终端所在服务id
+     */
     private String sid;
+    /**
+     * 终端id
+     */
     private String tid;
+    /**
+     * 服务描述
+     */
+    private String desc;
 }

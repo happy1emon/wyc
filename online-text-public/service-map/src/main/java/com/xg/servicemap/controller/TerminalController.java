@@ -23,8 +23,8 @@ public class TerminalController {
      * @return
      */
     @PostMapping("/add")
-    public ResponseResult add(String name){
-        return terminalService.add(name);
+    public ResponseResult add(String name, String desc){
+        return terminalService.add(name,desc);
     }
 
 }

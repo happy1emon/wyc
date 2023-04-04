@@ -25,7 +25,7 @@ public class TerminalClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    public ResponseResult add(String name){
+    public ResponseResult add(String name,String desc){
         StringBuilder url=new StringBuilder(AmapConfigConstants.TERMINAL_ADD_URL);
         url.append("?");
         url.append("key="+amapKey);
@@ -33,6 +33,8 @@ public class TerminalClient {
         url.append("sid="+amapSid);
         url.append("&");
         url.append("name="+name);
+        url.append("&");
+        url.append("desc=").append(desc);
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url.toString(), null, String.class);
         String body = responseEntity.getBody();
@@ -43,6 +45,7 @@ public class TerminalClient {
         terminalResponse.setName(name);
         terminalResponse.setSid(amapSid);
         terminalResponse.setTid(tid);
+        terminalResponse.setDesc(desc);
         return ResponseResult.success(terminalResponse);
     }
 
