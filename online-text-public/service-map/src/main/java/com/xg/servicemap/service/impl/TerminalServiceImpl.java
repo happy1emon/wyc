@@ -6,6 +6,8 @@ import com.xg.servicemap.service.TerminalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @USER: XGGG
@@ -19,7 +21,13 @@ public class TerminalServiceImpl implements TerminalService {
     private TerminalClient terminalClient;
 
     @Override
-    public ResponseResult add(String name,String desc) {
+    public ResponseResult add(String name, Long desc) {
         return terminalClient.add(name,desc);
+    }
+
+    @Override
+    public ResponseResult aroundSearch(String center, String radius) {
+
+        return terminalClient.aroundSearch(center,radius);
     }
 }

@@ -9,5 +9,7 @@ import com.xg.internalcommon.dto.ResponseResult;
 
 public interface TerminalService {
 
-    ResponseResult add(String terminalName,String desc);
+    ResponseResult add(String terminalName,Long desc);
+
+    ResponseResult aroundSearch(String center,String radius);
 }

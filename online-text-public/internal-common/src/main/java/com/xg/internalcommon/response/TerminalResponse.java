@@ -23,5 +23,5 @@ public class TerminalResponse {
     /**
      * 服务描述
      */
-    private String desc;
+    private Long desc;
 }

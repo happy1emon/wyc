@@ -38,7 +38,10 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarSe
         LocalDateTime now=LocalDateTime.now();
         car.setGmtCreate(now);
         car.setGmtModified(now);
-        ResponseResult<TerminalResponse> responseResult = serviceMapClient.addTerminal(car.getVehicleNo());
+        int insert = carMapper.insert(car);
+        String name=car.getVehicleNo();
+        Long desc=car.getId();
+        ResponseResult<TerminalResponse> responseResult = serviceMapClient.addTerminal(name,desc);
         String tid = responseResult.getData().getTid();
         if (tid==null){
             return ResponseResult.fail(CommonStatusEnum.FAIL.getCode(),CommonStatusEnum.FAIL.getValue());
@@ -51,9 +54,8 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarSe
         String trname = trackResponseResponseResult.getData().getTrname();
         car.setTrid(trid);
         car.setTrname(trname);
-
-        int insert = carMapper.insert(car);
-        if (insert==1){
+        int update = carMapper.updateById(car);
+        if (update==1){
             return ResponseResult.success("car--Binding: "+car.getVehicleNo()+"-"+ tid+" success!");
         }
         return ResponseResult.fail(CommonStatusEnum.FAIL.getCode(),CommonStatusEnum.FAIL.getValue());

@@ -3,10 +3,7 @@ package com.xg.servicemap.controller;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.servicemap.service.TerminalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @USER: XGGG
@@ -23,8 +20,16 @@ public class TerminalController {
      * @return
      */
     @PostMapping("/add")
-    public ResponseResult add(String name, String desc){
+    public ResponseResult add(@RequestParam String name, Long desc){
         return terminalService.add(name,desc);
     }
+
+
+    @PostMapping("/aroundSearch")
+    public ResponseResult aroudSearch(String center,String radius){
+        return terminalService.aroundSearch(center,radius);
+    }
+
+
 
 }
