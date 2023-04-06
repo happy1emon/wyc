@@ -103,6 +103,12 @@ public class OrderInfo implements Serializable {
     private String fareType;
 
     /**
+     * 订价规则版本
+     */
+    private Integer fareVersion;
+
+
+    /**
      * 接受时经度
      */
     private String receiveOrderCarLongitude;

@@ -2,6 +2,7 @@ package mapper;
 
 import generator.DriverUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @author junxuan
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2023-03-28 12:23:26
 * @Entity generator.DriverUser
 */
+@Mapper
 public interface DriverUserMapper extends BaseMapper<DriverUser> {
 
 }
