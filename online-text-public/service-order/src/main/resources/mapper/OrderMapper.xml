@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xg.serviceorder.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.xg.serviceorder.dto.Order">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="passengerId" column="passenger_id" jdbcType="BIGINT"/>
+            <result property="passengerPhone" column="passenger_phone" jdbcType="VARCHAR"/>
+            <result property="driverId" column="driver_id" jdbcType="BIGINT"/>
+            <result property="driverPhone" column="driver_phone" jdbcType="VARCHAR"/>
+            <result property="carId" column="car_id" jdbcType="BIGINT"/>
+            <result property="address" column="address" jdbcType="CHAR"/>
+            <result property="orderTime" column="order_time" jdbcType="TIMESTAMP"/>
+            <result property="departTime" column="depart_time" jdbcType="TIMESTAMP"/>
+            <result property="departure" column="departure" jdbcType="VARCHAR"/>
+            <result property="depLongitude" column="dep_longitude" jdbcType="VARCHAR"/>
+            <result property="depLatitude" column="dep_latitude" jdbcType="VARCHAR"/>
+            <result property="destination" column="destination" jdbcType="VARCHAR"/>
+            <result property="destLongitude" column="dest_longitude" jdbcType="VARCHAR"/>
+            <result property="destLatitude" column="dest_latitude" jdbcType="VARCHAR"/>
+            <result property="encrypt" column="encrypt" jdbcType="INTEGER"/>
+            <result property="fareType" column="fare_type" jdbcType="VARCHAR"/>
+            <result property="receiveOrderCarLongitude" column="receive_order_car_longitude" jdbcType="VARCHAR"/>
+            <result property="receiveOrderTime" column="receive_order_time" jdbcType="TIMESTAMP"/>
+            <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
+            <result property="vehicleNo" column="vehicle_no" jdbcType="VARCHAR"/>
+            <result property="toPickUpPassengerTime" column="to_pick_up_passenger_time" jdbcType="TIMESTAMP"/>
+            <result property="toPickUpPassengerLongitude" column="to_pick_up_passenger_longitude" jdbcType="VARCHAR"/>
+            <result property="toPickUpPassengerLatitude" column="to_pick_up_passenger_latitude" jdbcType="VARCHAR"/>
+            <result property="toPickUpPassengerAddress" column="to_pick_up_passenger_address" jdbcType="VARCHAR"/>
+            <result property="driverArrivedDepartureTime" column="driver_arrived_departure_time" jdbcType="TIMESTAMP"/>
+            <result property="pickUpPassengerTime" column="pick_up_passenger_time" jdbcType="TIMESTAMP"/>
+            <result property="pickUpPassengerLongitude" column="pick_up_passenger_longitude" jdbcType="VARCHAR"/>
+            <result property="pickUpPassengerLatitude" column="pick_up_passenger_latitude" jdbcType="VARCHAR"/>
+            <result property="passengerGetoffTime" column="passenger_getoff_time" jdbcType="TIMESTAMP"/>
+            <result property="passengerGetoffLongitude" column="passenger_getoff_longitude" jdbcType="VARCHAR"/>
+            <result property="passengerGetoffLatitude" column="passenger_getoff_latitude" jdbcType="VARCHAR"/>
+            <result property="cancelTime" column="cancel_time" jdbcType="TIMESTAMP"/>
+            <result property="cancelOperator" column="cancel_operator" jdbcType="INTEGER"/>
+            <result property="cancelTypeCode" column="cancel_type_code" jdbcType="INTEGER"/>
+            <result property="driveMile" column="drive_mile" jdbcType="BIGINT"/>
+            <result property="driveTime" column="drive_time" jdbcType="BIGINT"/>
+            <result property="orderStatus" column="order_status" jdbcType="INTEGER"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,passenger_id,passenger_phone,
+        driver_id,driver_phone,car_id,
+        address,order_time,depart_time,
+        departure,dep_longitude,dep_latitude,
+        destination,dest_longitude,dest_latitude,
+        encrypt,fare_type,receive_order_car_longitude,
+        receive_order_time,license_id,vehicle_no,
+        to_pick_up_passenger_time,to_pick_up_passenger_longitude,to_pick_up_passenger_latitude,
+        to_pick_up_passenger_address,driver_arrived_departure_time,pick_up_passenger_time,
+        pick_up_passenger_longitude,pick_up_passenger_latitude,passenger_getoff_time,
+        passenger_getoff_longitude,passenger_getoff_latitude,cancel_time,
+        cancel_operator,cancel_type_code,drive_mile,
+        drive_time,order_status,gmt_create,
+        gmt_modified
+    </sql>
+</mapper>
