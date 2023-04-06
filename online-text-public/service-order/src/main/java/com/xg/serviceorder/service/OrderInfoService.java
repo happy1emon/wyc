@@ -2,6 +2,8 @@ package com.xg.serviceorder.service;
 
 import com.xg.internalcommon.dto.OrderInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.request.OrderRequest;
 
 /**
 * @author junxuan
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface OrderInfoService extends IService<OrderInfo> {
 
+    ResponseResult add(OrderRequest orderRequest);
 }
