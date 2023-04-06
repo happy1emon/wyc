@@ -1,23 +1,25 @@
-package com.xg.serviceorder.dto;
+package com.xg.internalcommon.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
 /**
  * 
- * @TableName order
+ * @TableName order_info
  */
-@TableName(value ="order")
+@TableName(value ="order_info")
 @Data
-public class Order implements Serializable {
+public class OrderInfo implements Serializable {
     /**
      * 
      */
+
     private Long id;
 
     /**
@@ -53,12 +55,12 @@ public class Order implements Serializable {
     /**
      * 下单时间
      */
-    private Date orderTime;
+    private LocalDateTime orderTime;
 
     /**
      * 出发时间
      */
-    private Date departTime;
+    private LocalDateTime departTime;
 
     /**
      * 出发地
@@ -108,7 +110,7 @@ public class Order implements Serializable {
     /**
      * 接单时间
      */
-    private Date receiveOrderTime;
+    private LocalDateTime receiveOrderTime;
 
     /**
      * 驾照
@@ -123,7 +125,7 @@ public class Order implements Serializable {
     /**
      * 预计接客时间
      */
-    private Date toPickUpPassengerTime;
+    private LocalDateTime toPickUpPassengerTime;
 
     /**
      * 预计接客经度
@@ -143,12 +145,12 @@ public class Order implements Serializable {
     /**
      * 司机到达出发地时间
      */
-    private Date driverArrivedDepartureTime;
+    private LocalDateTime driverArrivedDepartureTime;
 
     /**
      * 司机接到客人时间
      */
-    private Date pickUpPassengerTime;
+    private LocalDateTime pickUpPassengerTime;
 
     /**
      * 司机接到客人经度
@@ -163,7 +165,7 @@ public class Order implements Serializable {
     /**
      * 乘客下车时间
      */
-    private Date passengerGetoffTime;
+    private LocalDateTime passengerGetoffTime;
 
     /**
      * 乘客下车经度
@@ -178,7 +180,7 @@ public class Order implements Serializable {
     /**
      * 取消订单时间
      */
-    private Date cancelTime;
+    private LocalDateTime cancelTime;
 
     /**
      * 撤销发起者1:乘客 2:驾驶员 3:平台 
@@ -201,19 +203,28 @@ public class Order implements Serializable {
     private Long driveTime;
 
     /**
-     * 订单状态 1:订单开始 2:司机接单 3:去接乘客 4:司机到达乘客起点 5:乘客上车，司机开始行程 6: 到达目的地,行程结束,未支付 7: 发起收款 8:支付完成 9:订单取消
+     * 订单状态
+     * 1:订单开始
+     * 2:司机接单
+     * 3:去接乘客
+     * 4:司机到达乘客起点
+     * 5:乘客上车，司机开始行程
+     * 6: 到达目的地,行程结束,未支付
+     * 7: 发起收款
+     * 8:支付完成
+     * 9:订单取消
      */
     private Integer orderStatus;
 
     /**
      * 创建时间
      */
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
     /**
      * 更改时间
      */
-    private Date gmtModified;
+    private LocalDateTime gmtModified;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
