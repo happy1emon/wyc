@@ -8,7 +8,6 @@ import lombok.Getter;
 
 public enum CommonStatusEnum {
 
-
     DRIVER_CAR_BIND_NOT_EXISTS(1500,"司机和车辆绑定关系不存在"),
     DRIVER_NOT_EXISTS(1501,"司机不存在"),
     DRIVER_CAR_BIND_EXISTS(1502,"司机和车辆绑定关系已经存在"),
@@ -21,6 +20,8 @@ public enum CommonStatusEnum {
      * price rule empty code in [1300,1399]
      */
     PRICE_RULE_EMPTY(1300,"计价规则不存在"),
+    PRICE_RULE_EXISTS(1301,"计价规则已经存在"),
+    PRICE_RULE_NOT_EDIT(1302,"计价规则没有变化"),
 
     /**
      * token error code in [1100,1199]

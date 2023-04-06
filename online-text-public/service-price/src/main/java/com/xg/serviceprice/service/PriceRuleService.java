@@ -10,5 +10,7 @@ import com.xg.internalcommon.dto.ResponseResult;
 public interface PriceRuleService {
 
     ResponseResult add(PriceRule priceRule);
+    ResponseResult edit(PriceRule priceRule);
+
 
 }
