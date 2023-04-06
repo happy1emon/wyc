@@ -37,11 +37,6 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
         String cityCode = forecastPriceDTO.getCityCode();
         String vehicleType = forecastPriceDTO.getVehicleType();
         log.info(data.toString());
-//        Map<String,Object> queryMap=new HashMap<>();
-//        queryMap.put("city_code",cityCode);
-//        queryMap.put("vehicle_type",vehicleType);
-//        List<PriceRule> priceRules = priceRuleMapper.selectByMap(queryMap);
-
         QueryWrapper<PriceRule> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("city_code",cityCode);
         queryWrapper.eq("vehicle_type",vehicleType);
@@ -51,9 +46,6 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
         if (priceRules.size()==0){
             return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(),CommonStatusEnum.PRICE_RULE_EMPTY.getValue());
         }
-//        if(priceRules.size()>1){
-//            return ResponseResult.fail(CommonStatusEnum.PRICE_MULTIRULE_ERROR.getCode(),CommonStatusEnum.PRICE_MULTIRULE_ERROR.getValue());
-//        }
         log.info(priceRules.get(0).toString());
         PriceRule priceRule = priceRules.get(0);
         Double price = PriceCount.getPrice(data.getDistance(), data.getDuration(), priceRule);
@@ -62,6 +54,8 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
         forecastPriceResponse.setPrice(price);
         forecastPriceResponse.setCityCode(cityCode);
         forecastPriceResponse.setVehicleType(vehicleType);
+        forecastPriceResponse.setFareVersion(priceRule.getFareVersion());
+        forecastPriceResponse.setFareType(priceRule.getFareType());
         return ResponseResult.success(forecastPriceResponse);
     }
 }

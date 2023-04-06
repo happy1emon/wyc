@@ -9,6 +9,8 @@ public class ForecastPriceDTO {
 
     private String vehicleType;
 
+    private Integer fareVersion;
+
     private String depLongitude;
 
     private String depLatitude;
@@ -16,8 +18,5 @@ public class ForecastPriceDTO {
     private String destLongitude;
 
     private String destLatitude;
-
-
-
 
 }
