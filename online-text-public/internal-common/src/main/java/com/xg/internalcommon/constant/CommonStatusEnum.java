@@ -8,12 +8,17 @@ import lombok.Getter;
 
 public enum CommonStatusEnum {
 
+    ORDER_IS_STARTING(1600,"已有正在进行的订单"),
+
+
     DRIVER_CAR_BIND_NOT_EXISTS(1500,"司机和车辆绑定关系不存在"),
     DRIVER_NOT_EXISTS(1501,"司机不存在"),
     DRIVER_CAR_BIND_EXISTS(1502,"司机和车辆绑定关系已经存在"),
     DRIVER_HAS_BOUND_ERORR(1503,"该司机已有绑定车辆"),
     CAR_HAS_BOUND_ERORR(1504,"车辆已被绑定过"),
     DRIVER_CAR_BIND_NOT_EXIST(1505,"绑定关系不存在"),
+
+
     MAP_DISTRICT_ERRO(1400,"请求地图错误"),
 
     /**
@@ -24,10 +29,13 @@ public enum CommonStatusEnum {
     PRICE_RULE_NOT_EDIT(1302,"计价规则没有变化"),
     PRICE_RULE_NOT_SAME(1303,"当前不是最新计价规则"),
 
+
     /**
      * token error code in [1100,1199]
      */
     TOKEN_ERROR(1199,"token错误"),
+
+
     VERIFICATION_CODE_ERROR(1099,"验证码不正确"),
     /**
      * 成功

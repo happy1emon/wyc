@@ -64,4 +64,10 @@
         drive_time,order_status,gmt_create,
         gmt_modified
     </sql>
+
+    <select id="isValid" resultType="integer" >
+        select order_status from order_info where passenger_id = ${passengerId}
+    </select>
+
+
 </mapper>

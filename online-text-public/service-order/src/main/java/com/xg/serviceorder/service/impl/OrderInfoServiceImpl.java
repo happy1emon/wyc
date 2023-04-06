@@ -1,5 +1,6 @@
 package com.xg.serviceorder.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.constant.OrderConstants;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
 * @author junxuan
@@ -32,11 +34,18 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     @Override
     public ResponseResult add(OrderRequest orderRequest) {
+
         //在下单前判断版本是否是最新
         ResponseResult<Boolean> isNew = servicePriceClient.isNew(orderRequest.getFareType(), orderRequest.getFareVersion());
         Boolean result = isNew.getData();
         if (!result){
             return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_NOT_SAME.getCode(),CommonStatusEnum.PRICE_RULE_NOT_SAME.getValue());
+        }
+        //判断该乘客是否已经有订单正在执行
+        List<Integer> valid = orderInfoMapper.isValid(orderRequest.getPassengerId());
+        Integer orderStatus = valid.get(0);
+        if (orderStatus!=OrderConstants.ORDER_INVALID || orderStatus!=OrderConstants.ORDER_CANCEL){
+            return ResponseResult.fail(CommonStatusEnum.ORDER_IS_STARTING.getCode(),CommonStatusEnum.ORDER_IS_STARTING.getValue());
         }
         OrderInfo orderInfo=new OrderInfo();
         BeanUtils.copyProperties(orderRequest,orderInfo);

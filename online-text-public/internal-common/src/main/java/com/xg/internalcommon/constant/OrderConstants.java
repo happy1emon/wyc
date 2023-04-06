@@ -5,6 +5,8 @@ package com.xg.internalcommon.constant;
  * @DATE: 2023/4/6
  */
 public class OrderConstants {
+
+    public static final int ORDER_INVALID = 0;
     /**
      * 订单开始
      */
