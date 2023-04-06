@@ -11,9 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @MapperScan("com.xg.serviceprice.mapper")
 public class ServicePriceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ServicePriceApplication.class, args);
     }
-
 }

@@ -22,6 +22,7 @@ public enum CommonStatusEnum {
     PRICE_RULE_EMPTY(1300,"计价规则不存在"),
     PRICE_RULE_EXISTS(1301,"计价规则已经存在"),
     PRICE_RULE_NOT_EDIT(1302,"计价规则没有变化"),
+    PRICE_RULE_NOT_SAME(1303,"当前不是最新计价规则"),
 
     /**
      * token error code in [1100,1199]

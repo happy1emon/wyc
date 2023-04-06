@@ -68,4 +68,9 @@ public class OrderRequest {
      */
     private String fareType;
 
+    /**
+     * 计价类型版本
+     */
+    private Integer fareVersion;
+
 }

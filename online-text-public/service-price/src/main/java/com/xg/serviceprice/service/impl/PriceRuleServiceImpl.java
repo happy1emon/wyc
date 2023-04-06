@@ -36,7 +36,7 @@ public class PriceRuleServiceImpl implements PriceRuleService {
         Integer fareVersion = 0;
         if (priceRules.size() > 0) {
 //            priceRuleMapper.insert(priceRule);
-            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EXISTS.getCode(),CommonStatusEnum.PRICE_RULE_EXISTS.getValue());
+            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EXISTS.getCode(), CommonStatusEnum.PRICE_RULE_EXISTS.getValue());
 
         }
         priceRule.setFareVersion(++fareVersion);
@@ -45,7 +45,7 @@ public class PriceRuleServiceImpl implements PriceRuleService {
     }
 
     @Override
-    public ResponseResult edit(PriceRule priceRule){
+    public ResponseResult edit(PriceRule priceRule) {
         String cityCode = priceRule.getCityCode();
         String vehicleType = priceRule.getVehicleType();
         String fareType = cityCode + "$" + vehicleType;
@@ -64,11 +64,11 @@ public class PriceRuleServiceImpl implements PriceRuleService {
             Double unitPricePerMinute = latestPriceRule.getUnitPricePerMinute();
             Double startFare = latestPriceRule.getStartFare();
             Integer startMile = latestPriceRule.getStartMile();
-            if (unitPricePerMile.doubleValue()==priceRule.getUnitPricePerMile().doubleValue()
-                    && unitPricePerMinute.doubleValue()==priceRule.getUnitPricePerMinute().doubleValue()
-                    && startFare.doubleValue()==priceRule.getStartFare().doubleValue()
-                    && startMile.intValue()==priceRule.getStartMile().intValue()){
-                return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_NOT_EDIT.getCode(),CommonStatusEnum.PRICE_RULE_NOT_EDIT.getValue());
+            if (unitPricePerMile.doubleValue() == priceRule.getUnitPricePerMile().doubleValue()
+                    && unitPricePerMinute.doubleValue() == priceRule.getUnitPricePerMinute().doubleValue()
+                    && startFare.doubleValue() == priceRule.getStartFare().doubleValue()
+                    && startMile.intValue() == priceRule.getStartMile().intValue()) {
+                return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_NOT_EDIT.getCode(), CommonStatusEnum.PRICE_RULE_NOT_EDIT.getValue());
 
             }
             fareVersion = latestPriceRule.getFareVersion();
@@ -78,5 +78,24 @@ public class PriceRuleServiceImpl implements PriceRuleService {
         return ResponseResult.success(insert + "条数据已添加");
     }
 
+    @Override
+    public ResponseResult<PriceRule> getNewestVersion(String fareType) {
+        QueryWrapper<PriceRule> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("fare_type", fareType);
+        queryWrapper.orderByDesc("fare_version");
+        queryWrapper.select("fare_version");
+        List<PriceRule> priceRules = priceRuleMapper.selectList(queryWrapper);
+        if (priceRules.size() == 0) {
+            return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(), CommonStatusEnum.PRICE_RULE_EMPTY.getValue());
+        }
+        return ResponseResult.success(priceRules.get(0));
+    }
 
+    @Override
+    public ResponseResult<Boolean> isNew(String fareType, Integer fareVersion) {
+        ResponseResult<PriceRule> newestVersion = getNewestVersion(fareType);
+        PriceRule latestVersionRule = newestVersion.getData();
+        Integer latestVersion = latestVersionRule.getFareVersion();
+        return latestVersion == fareVersion ? ResponseResult.success(true) : ResponseResult.success(false);
+    }
 }
