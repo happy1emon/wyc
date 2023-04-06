@@ -14,5 +14,7 @@ public interface ForecastPriceService {
     ResponseResult forecastPrice(String depLongtitude,
                                  String depLatitude,
                                  String destLongtitude,
-                                 String destLatitude);
+                                 String destLatitude,
+                                 String cityCode,
+                                 String vehicleType);
 }

@@ -1,8 +1,9 @@
 package com.xg.serviceprice.service;
 
 import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.request.ForecastPriceDTO;
 
 public interface ForecastPriceService {
 
-    ResponseResult forecastPrice(String depLongitude,String depLatitude,String destLongitude,String destLatitude);
+    ResponseResult forecastPrice(ForecastPriceDTO forecastPriceDTO);
 }

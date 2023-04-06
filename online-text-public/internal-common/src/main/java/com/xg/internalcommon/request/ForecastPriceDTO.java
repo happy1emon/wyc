@@ -4,6 +4,11 @@ import lombok.Data;
 
 @Data
 public class ForecastPriceDTO {
+
+    private String cityCode;
+
+    private String vehicleType;
+
     private String depLongitude;
 
     private String depLatitude;
@@ -11,6 +16,8 @@ public class ForecastPriceDTO {
     private String destLongitude;
 
     private String destLatitude;
+
+
 
 
 }

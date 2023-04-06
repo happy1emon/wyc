@@ -18,17 +18,23 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
     public ResponseResult forecastPrice(String depLongtitude,
                                         String depLatitude,
                                         String destLongtitude,
-                                        String destLatitude) {
+                                        String destLatitude,
+                                        String cityCode,
+                                        String vehicleType) {
 
         ForecastPriceDTO forecastPriceDTO=new ForecastPriceDTO();
         forecastPriceDTO.setDestLatitude(destLatitude);
         forecastPriceDTO.setDestLongitude(destLongtitude);
         forecastPriceDTO.setDepLongitude(depLongtitude);
         forecastPriceDTO.setDepLatitude(depLatitude);
+        forecastPriceDTO.setCityCode(cityCode);
+        forecastPriceDTO.setVehicleType(vehicleType);
         ResponseResult<ForecastPriceResponse> response = servicePriceClient.getPrice(forecastPriceDTO);
         Double price = response.getData().getPrice();
         ForecastPriceResponse forecastPriceResponse=new ForecastPriceResponse();
         forecastPriceResponse.setPrice(price);
+        forecastPriceResponse.setVehicleType(vehicleType);
+        forecastPriceResponse.setCityCode(cityCode);
         return ResponseResult.success(forecastPriceResponse);
     }
 }

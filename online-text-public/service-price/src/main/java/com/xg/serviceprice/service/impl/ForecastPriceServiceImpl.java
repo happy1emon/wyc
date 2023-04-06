@@ -31,35 +31,37 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
 
 
     @Override
-    public ResponseResult forecastPrice(String depLongitude,
-                                        String depLatitude,
-                                        String destLongitude,
-                                        String destLatitude) {
-        ForecastPriceDTO forecastPriceDTO=new ForecastPriceDTO();
-        forecastPriceDTO.setDepLatitude(depLatitude);
-        forecastPriceDTO.setDepLongitude(depLongitude);
-        forecastPriceDTO.setDestLongitude(destLongitude);
-        forecastPriceDTO.setDestLatitude(destLatitude);
+    public ResponseResult forecastPrice(ForecastPriceDTO forecastPriceDTO) {
         ResponseResult<DirectionResponse> distanceAndDuration = serviceMapClient.driving(forecastPriceDTO);
         DirectionResponse data = distanceAndDuration.getData();
+        String cityCode = forecastPriceDTO.getCityCode();
+        String vehicleType = forecastPriceDTO.getVehicleType();
         log.info(data.toString());
-        Map<String,Object> queryMap=new HashMap<>();
-        queryMap.put("city_code","110000");
-        queryMap.put("vehicle_type","1");
-        List<PriceRule> priceRules = priceRuleMapper.selectByMap(queryMap);
+//        Map<String,Object> queryMap=new HashMap<>();
+//        queryMap.put("city_code",cityCode);
+//        queryMap.put("vehicle_type",vehicleType);
+//        List<PriceRule> priceRules = priceRuleMapper.selectByMap(queryMap);
+
+        QueryWrapper<PriceRule> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("city_code",cityCode);
+        queryWrapper.eq("vehicle_type",vehicleType);
+        queryWrapper.orderByDesc("fare_version");
+        List<PriceRule> priceRules = priceRuleMapper.selectList(queryWrapper);
         //大于1也不对 只能找到一个规则
         if (priceRules.size()==0){
             return ResponseResult.fail(CommonStatusEnum.PRICE_RULE_EMPTY.getCode(),CommonStatusEnum.PRICE_RULE_EMPTY.getValue());
         }
-        if(priceRules.size()>1){
-            return ResponseResult.fail(CommonStatusEnum.PRICE_MULTIRULE_ERROR.getCode(),CommonStatusEnum.PRICE_MULTIRULE_ERROR.getValue());
-        }
+//        if(priceRules.size()>1){
+//            return ResponseResult.fail(CommonStatusEnum.PRICE_MULTIRULE_ERROR.getCode(),CommonStatusEnum.PRICE_MULTIRULE_ERROR.getValue());
+//        }
         log.info(priceRules.get(0).toString());
         PriceRule priceRule = priceRules.get(0);
         Double price = PriceCount.getPrice(data.getDistance(), data.getDuration(), priceRule);
         log.info(price.toString());
         ForecastPriceResponse forecastPriceResponse=new ForecastPriceResponse();
         forecastPriceResponse.setPrice(price);
+        forecastPriceResponse.setCityCode(cityCode);
+        forecastPriceResponse.setVehicleType(vehicleType);
         return ResponseResult.success(forecastPriceResponse);
     }
 }
