@@ -98,4 +98,19 @@ public class PriceRuleServiceImpl implements PriceRuleService {
         Integer latestVersion = latestVersionRule.getFareVersion();
         return latestVersion == fareVersion ? ResponseResult.success(true) : ResponseResult.success(false);
     }
+
+    @Override
+    public ResponseResult<Boolean> ifExists(PriceRule priceRule) {
+        String cityCode = priceRule.getCityCode();
+        String vehicleType = priceRule.getVehicleType();
+        QueryWrapper<PriceRule> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("city_code",cityCode);
+        queryWrapper.eq("vehicle_type",vehicleType);
+//        queryWrapper.orderByDesc("fare_version");
+        List<PriceRule> priceRules = priceRuleMapper.selectList(queryWrapper);
+        if (priceRules.size()>0){
+            return ResponseResult.success(true);
+        }
+        return ResponseResult.success(false);
+    }
 }

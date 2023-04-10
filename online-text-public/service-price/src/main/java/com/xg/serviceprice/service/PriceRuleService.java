@@ -16,4 +16,7 @@ public interface PriceRuleService {
     ResponseResult<PriceRule> getNewestVersion(String fareType);
 
     ResponseResult<Boolean> isNew(String fareType, Integer fareVersion);
+
+    ResponseResult<Boolean> ifExists(PriceRule priceRule);
+
 }

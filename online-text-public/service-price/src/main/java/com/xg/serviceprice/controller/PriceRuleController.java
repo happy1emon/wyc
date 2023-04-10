@@ -1,6 +1,7 @@
 package com.xg.serviceprice.controller;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.xg.internalcommon.dto.PriceRule;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.serviceprice.service.PriceRuleService;
@@ -31,5 +32,7 @@ public class PriceRuleController {
     public ResponseResult getNewestVersion(@RequestParam String fareType){return priceRuleService.getNewestVersion(fareType);}
     @GetMapping("/is-new")
     public ResponseResult isNew(@RequestParam String fareType,@RequestParam Integer fareVersion){return priceRuleService.isNew(fareType,fareVersion);}
+    @GetMapping("/if-exists")
+    public ResponseResult<Boolean> ifExists(@RequestBody PriceRule priceRule){return priceRuleService.ifExists(priceRule);  }
 
 }
