@@ -13,6 +13,7 @@ public enum CommonStatusEnum {
      * 下单异常
      */
     DEVICE_IS_BLACK(1601,"该设备超过下单次数"),
+    CITY_SERVICE_INAVAILABLE(1602,"该城市不提供该服务"),
 
 
     DRIVER_CAR_BIND_NOT_EXISTS(1500,"司机和车辆绑定关系不存在"),
@@ -21,6 +22,8 @@ public enum CommonStatusEnum {
     DRIVER_HAS_BOUND_ERORR(1503,"该司机已有绑定车辆"),
     CAR_HAS_BOUND_ERORR(1504,"车辆已被绑定过"),
     DRIVER_CAR_BIND_NOT_EXIST(1505,"绑定关系不存在"),
+    NO_AVAILABLE_DRIVER(1506,"当前城市没有可用司机"),
+
 
 
     MAP_DISTRICT_ERRO(1400,"请求地图错误"),

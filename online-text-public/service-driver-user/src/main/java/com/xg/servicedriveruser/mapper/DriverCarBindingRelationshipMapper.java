@@ -14,6 +14,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DriverCarBindingRelationshipMapper extends BaseMapper<DriverCarBindingRelationship> {
 
+
+    Integer selectWorkStatus(String cityCode);
+
+
 }
 
 

@@ -5,16 +5,25 @@
 <mapper namespace="com.xg.servicedriveruser.mapper.DriverCarBindingRelationshipMapper">
 
     <resultMap id="BaseResultMap" type="com.xg.internalcommon.dto.DriverCarBindingRelationship">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="driverId" column="driver_id" jdbcType="BIGINT"/>
-            <result property="carId" column="car_id" jdbcType="BIGINT"/>
-            <result property="bindState" column="bind_state" jdbcType="INTEGER"/>
-            <result property="bindingTime" column="binding_time" jdbcType="TIMESTAMP"/>
-            <result property="unBindingTime" column="un_binding_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="driverId" column="driver_id" jdbcType="BIGINT"/>
+        <result property="carId" column="car_id" jdbcType="BIGINT"/>
+        <result property="bindState" column="bind_state" jdbcType="INTEGER"/>
+        <result property="bindingTime" column="binding_time" jdbcType="TIMESTAMP"/>
+        <result property="unBindingTime" column="un_binding_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,driver_id,car_id,
         bind_state,binding_time,un_binding_time
     </sql>
+
+    <select id="selectWorkStatus" parameterType="string" resultType="integer">
+        SELECT COUNT(*)
+        FROM v_city_driver_user_work_status
+        where city_code = ${cityCode}
+          and work_status = 1
+    </select>
+
+
 </mapper>

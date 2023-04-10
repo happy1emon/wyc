@@ -1,6 +1,7 @@
 package com.xg.serviceorder.remote;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.xg.internalcommon.dto.PriceRule;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.request.OrderRequest;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -17,5 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ServicePriceClient {
     @RequestMapping(method = RequestMethod.GET,value = "/price-rule/is-new")
     ResponseResult<Boolean> isNew(@RequestParam String fareType,@RequestParam Integer fareVersion);
+
+    @RequestMapping(method = RequestMethod.GET , value = "/price-rule/if-exists")
+    ResponseResult<Boolean> ifExists(@RequestBody PriceRule priceRule);
 
 }
