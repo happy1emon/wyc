@@ -23,6 +23,7 @@ public enum CommonStatusEnum {
     CAR_HAS_BOUND_ERORR(1504,"车辆已被绑定过"),
     DRIVER_CAR_BIND_NOT_EXIST(1505,"绑定关系不存在"),
     NO_AVAILABLE_DRIVER(1506,"当前城市没有可用司机"),
+    NO_AVAILABLE_DRIVER_AROUND(1507,"周围没有可用司机"),
 
 
 

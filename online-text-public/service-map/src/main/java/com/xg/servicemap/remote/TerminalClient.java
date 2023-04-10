@@ -1,6 +1,7 @@
 package com.xg.servicemap.remote;
 
 import com.xg.internalcommon.constant.AmapConfigConstants;
+import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.response.TerminalResponse;
 import net.sf.json.JSONArray;
@@ -28,7 +29,7 @@ public class TerminalClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    public ResponseResult add(String name,Long desc){
+    public ResponseResult<TerminalResponse> add(String name,Long desc){
         StringBuilder url=new StringBuilder(AmapConfigConstants.TERMINAL_ADD_URL);
         url.append("?");
         url.append("key="+amapKey);
@@ -53,7 +54,7 @@ public class TerminalClient {
     }
 
 
-    public ResponseResult aroundSearch(String center,String radius){
+    public ResponseResult<ArrayList<TerminalResponse>> aroundSearch(String center,String radius){
         StringBuilder url=new StringBuilder(AmapConfigConstants.TERMINAL_SEARCH_URL);
         url.append("?");
         url.append("key="+amapKey);
@@ -68,6 +69,11 @@ public class TerminalClient {
         String body = forEntity.getBody();
         JSONObject jsonObject = JSONObject.fromObject(body);
         JSONObject data = jsonObject.getJSONObject("data");
+        int count = data.getInt("count");
+        if (count==0){
+            return ResponseResult.success(new ArrayList<>());
+        }
+
         JSONArray result = data.getJSONArray("results");
         ArrayList<TerminalResponse> res=new ArrayList<>();
         for(int i=0;i<result.size();i++){

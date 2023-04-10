@@ -1,6 +1,9 @@
 package com.xg.servicemap.service;
 
 import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.response.TerminalResponse;
+
+import java.util.ArrayList;
 
 /**
  * @USER: XGGG
@@ -11,5 +14,5 @@ public interface TerminalService {
 
     ResponseResult add(String terminalName,Long desc);
 
-    ResponseResult aroundSearch(String center,String radius);
+    ResponseResult<ArrayList<TerminalResponse>> aroundSearch(String center, String radius);
 }
