@@ -1,6 +1,10 @@
 package com.xg.internalcommon.utils;
 
 public class RedisPrefixUtils {
+    //黑名单设备号前缀
+    public static String blackDeviceCodePrefix="black-device-";
+
+
     //乘客验证码前缀
     public static final String verificationCodePrefix = "verification-code-";
     //token前缀

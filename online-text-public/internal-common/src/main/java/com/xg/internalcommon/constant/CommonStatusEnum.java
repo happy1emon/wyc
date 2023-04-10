@@ -9,6 +9,10 @@ import lombok.Getter;
 public enum CommonStatusEnum {
 
     ORDER_IS_STARTING(1600,"已有正在进行的订单"),
+    /**
+     * 下单异常
+     */
+    DEVICE_IS_BLACK(1601,"该设备超过下单次数"),
 
 
     DRIVER_CAR_BIND_NOT_EXISTS(1500,"司机和车辆绑定关系不存在"),

@@ -73,4 +73,8 @@ public class OrderRequest {
      */
     private Integer fareVersion;
 
+
+    //加入header携带的设备号
+    private String deviceCode;
+
 }
