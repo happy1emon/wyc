@@ -66,8 +66,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         //判断该地区有没有可用司机
         ResponseResult<Boolean> availableDriver = serviceDriverUserClient.isAvailableDriver(orderRequest.getAddress());
         Boolean isAvailable = availableDriver.getData();
-        if (!isAvailable){
-            return ResponseResult.fail(CommonStatusEnum.NO_AVAILABLE_DRIVER.getCode(),CommonStatusEnum.NO_AVAILABLE_DRIVER.getValue());
+        if (!isAvailable) {
+            return ResponseResult.fail(CommonStatusEnum.NO_AVAILABLE_DRIVER.getCode(), CommonStatusEnum.NO_AVAILABLE_DRIVER.getValue());
         }
 
         //在下单前判断版本是否是最新
@@ -79,7 +79,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         //判断该乘客是否已经有订单正在执行
         List<Integer> valid = orderInfoMapper.isValid(orderRequest.getPassengerId());
-        if (valid.size()!=0){
+        if (valid.size() != 0) {
             Integer orderStatus = valid.get(0);
             if (orderStatus != OrderConstants.ORDER_INVALID || orderStatus != OrderConstants.ORDER_CANCEL) {
                 return ResponseResult.fail(CommonStatusEnum.ORDER_IS_STARTING.getCode(), CommonStatusEnum.ORDER_IS_STARTING.getValue());
@@ -140,43 +140,38 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     /**
      * 实时订单派单逻辑
+     *
      * @param orderInfo orderInfo
      */
-    public void dispatchRealTimeOrder(OrderInfo orderInfo){
+    public void dispatchRealTimeOrder(OrderInfo orderInfo) {
         String depLongitude = orderInfo.getDepLongitude();
         String depLatitude = orderInfo.getDepLatitude();
-        String center=depLatitude+","+depLongitude;
-        int radius=2000;
-        //2km
-        ResponseResult<ArrayList<TerminalResponse>> TR = serviceMapClient.aroundSearch(center, String.valueOf(radius));
-        ArrayList<TerminalResponse> terminals = TR.getData();
-        if (terminals.size()==0){
-            radius+=2000;
-            ResponseResult<ArrayList<TerminalResponse>> TR4 = serviceMapClient.aroundSearch(center, String.valueOf(radius));
-            ArrayList<TerminalResponse> terminals4KM = TR4.getData();
-            if (terminals4KM.size()==0){
-                radius+=1000;
-                ResponseResult<ArrayList<TerminalResponse>> TR6 = serviceMapClient.aroundSearch(center, String.valueOf(radius));
-                ArrayList<TerminalResponse> terminals6KM = TR4.getData();
-                if (terminals6KM.size()==0){
-                    log.info("此轮派单没有找到车，找了2 4 6km");
-                }
-                else{
-                    log.info("6km找到了:"+terminals4KM.get(0));
-                }
-            }else{
-                log.info("4km找到了:"+terminals4KM.get(0));
+        String center = depLatitude + "," + depLongitude;
+        int radius = 2000;
 
+
+        ArrayList<Integer> radiusList = new ArrayList<>();
+        ResponseResult<ArrayList<TerminalResponse>> listResponseResult = null;
+
+        radiusList.add(2000);
+        radiusList.add(4000);
+        radiusList.add(5000);
+        for (int i = 0; i < radiusList.size(); i++) {
+            listResponseResult = serviceMapClient.aroundSearch(center, String.valueOf(radiusList.get(i)));
+            //获得终端
+            ArrayList<TerminalResponse> data = listResponseResult.getData();
+            if (data.size() == 0) {
+                continue;
             }
-        }else{
-            log.info("2km找到了:"+terminals.get(0));
+            //解析终端
+
+            //根据解析出来的终端，查询车辆信息
+
+            // 找到符合的车辆进行派单
+
+            //派单成功 退出循环
         }
-
-
     }
-
-
-
 }
 
 

@@ -65,7 +65,7 @@ public class TerminalClient {
         url.append("&");
         url.append("radius=").append(radius);
 
-        ResponseEntity<String> forEntity = restTemplate.postForEntity(url.toString(),null, String.class);
+        ResponseEntity<String> forEntity = restTemplate.postForEntity(url.toString( ),null, String.class);
         String body = forEntity.getBody();
         JSONObject jsonObject = JSONObject.fromObject(body);
         JSONObject data = jsonObject.getJSONObject("data");
