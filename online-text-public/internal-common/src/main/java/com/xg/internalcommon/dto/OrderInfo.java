@@ -113,6 +113,8 @@ public class OrderInfo implements Serializable {
      */
     private String receiveOrderCarLongitude;
 
+    private String receiveOrderCarLatitude;
+
     /**
      * 接单时间
      */

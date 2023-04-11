@@ -44,6 +44,8 @@ import java.util.concurrent.TimeUnit;
 public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo>
         implements OrderInfoService {
 
+
+
     @Autowired
     private OrderInfoMapper orderInfoMapper;
 
@@ -116,7 +118,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         if (!flag) {
             return ResponseResult.fail(CommonStatusEnum.ORDER_CREATE_FAIL.getCode(), CommonStatusEnum.ORDER_CREATE_FAIL.getValue());
         }
-        return ResponseResult.success("");
+        return ResponseResult.success("下单成功");
     }
 
     private Boolean ifExists(OrderRequest orderRequest) {
@@ -146,13 +148,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         }
         return false;
     }
-
+    @Override
     /**
      * 实时订单派单逻辑
-     *
      * @param orderInfo orderInfo
      */
-    public Boolean dispatchRealTimeOrder(OrderInfo orderInfo) {
+    public synchronized Boolean dispatchRealTimeOrder(OrderInfo orderInfo) {
         String depLongitude = orderInfo.getDepLongitude();
         String depLatitude = orderInfo.getDepLatitude();
         String center = depLatitude + "," + depLongitude;
@@ -171,10 +172,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             }
             //解析终端
             //根据解析出来的终端，查询车辆信息
-            JSONArray results = JSONArray.fromObject(data);
             for (int j = 0; j < data.size(); j++) {
-                JSONObject jsonObject = results.getJSONObject(j);
-                Long carId = jsonObject.getLong("desc");
+                TerminalResponse terminalResponse = data.get(j);
+                Long carId = terminalResponse.getDesc();
                 //查询司机是否是出车状态
                 ResponseResult<OrderDriverResponse> availableDriver = serviceDriverUserClient.getAvailableDriver(carId);
                 if (availableDriver.getCode() == CommonStatusEnum.NO_AVAILABLE_DRIVER.getCode()) {
@@ -182,33 +182,39 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 }
                 OrderDriverResponse driverResponse = availableDriver.getData();
                 Long driverId = driverResponse.getDriverId();
-                Integer orderStatus = orderInfoMapper.isOrderGoingOnByDriverId(driverId);
-                if (orderStatus != null) {
-                    if (orderStatus.intValue() != OrderConstants.ORDER_INVALID || orderStatus.intValue() != OrderConstants.OVER_PAY) {
-                        continue;
-                    }
+                List<Integer> orderStatus = orderInfoMapper.isOrderGoingOnByDriverId(driverId);
+                if (orderStatus.get(0)>0) {
+                    continue;
                 }
                 // 且没有订单的司机
-                // 找到符合的车辆进行派单
-                UpdateWrapper<OrderInfo> updateWrapper = new UpdateWrapper<>();
-                updateWrapper.eq("id", orderInfo.getId());
-                updateWrapper.set("driver_id", driverId);
-                updateWrapper.set("car_id", carId);
-                updateWrapper.set("driver_phone", driverResponse.getDriverPhone());
-                int update = orderInfoMapper.update(null, updateWrapper);
+                // 找到符合的车辆进行派单 先不管司机接不接 派就完了
+                orderInfo.setReceiveOrderTime(LocalDateTime.now());
+                orderInfo.setReceiveOrderCarLongitude(terminalResponse.getLongitude());
+                orderInfo.setReceiveOrderCarLatitude(terminalResponse.getLatitude());
+                orderInfo.setCarId(carId);
+                orderInfo.setDriverId(driverId);
+                orderInfo.setLicenseId(driverResponse.getLicenseId());
+                orderInfo.setDriverPhone(driverResponse.getDriverPhone());
+                orderInfo.setVehicleNo(driverResponse.getVehicleNo());
+                orderInfo.setOrderStatus(OrderConstants.DRIVER_RECEIVE_ORDER);
+                orderInfo.setGmtModified(LocalDateTime.now());
+                UpdateWrapper<OrderInfo> orderInfoUpdateWrapper=new UpdateWrapper<>();
+                orderInfoUpdateWrapper.eq("id",orderInfo.getId());
+                int update = orderInfoMapper.update(orderInfo,orderInfoUpdateWrapper);
                 //派单成功 退出循环
-                if (update == 1) {
+                if (update >= 1) {
                     return true;
                 }
             }
         }
         UpdateWrapper<OrderInfo> uw = new UpdateWrapper<>();
         uw.eq("id", orderInfo.getId());
-        uw.set("order_status", OrderConstants.ORDER_INVALID);
+        uw.set("order_status", OrderConstants.ORDER_START);
         //如果没找到 则订单无效
         int update = orderInfoMapper.update(null, uw);
         return false;
     }
+
 }
 
 

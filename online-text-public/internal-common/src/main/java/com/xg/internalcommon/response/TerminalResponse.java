@@ -21,7 +21,16 @@ public class TerminalResponse {
      */
     private String tid;
     /**
-     * 服务描述
+     * 服务描述 carId
      */
     private Long desc;
+    /**
+     * 当前经度
+     */
+    private String longitude;
+    /**
+     * 当前纬度
+     */
+    private String latitude;
+
 }

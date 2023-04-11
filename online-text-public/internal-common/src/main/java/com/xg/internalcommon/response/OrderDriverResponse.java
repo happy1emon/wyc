@@ -11,5 +11,7 @@ public class OrderDriverResponse {
     private Long driverId;
     private Long carId;
     private String driverPhone;
+    private String vehicleNo;
+    private String licenseId;
 
 }

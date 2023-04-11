@@ -1,5 +1,7 @@
 package com.xg.serviceorder;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xg.internalcommon.dto.OrderInfo;
 import com.xg.serviceorder.mapper.OrderInfoMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,8 @@ class ServiceOrderApplicationTests {
 
     @Test
     public void test(){
-        List<Integer> valid = orderInfoMapper.isValid(4L);
-        System.out.println(valid);
-
+        List<Integer> orderGoingOnByDriverId = orderInfoMapper.isOrderGoingOnByDriverId(1641446566823079937l);
+        System.out.println(orderGoingOnByDriverId);
     }
 
 }

@@ -13,4 +13,8 @@ import com.xg.internalcommon.request.OrderRequest;
 public interface OrderInfoService extends IService<OrderInfo> {
 
     ResponseResult add(OrderRequest orderRequest);
+
+    Boolean dispatchRealTimeOrder(OrderInfo orderInfo);
+
+
 }
