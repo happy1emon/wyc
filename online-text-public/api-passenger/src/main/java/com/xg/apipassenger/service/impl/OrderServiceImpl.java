@@ -22,4 +22,9 @@ public class OrderServiceImpl implements OrderService {
     public ResponseResult add(OrderRequest orderRequest) {
         return serviceOrderClient.add(orderRequest);
     }
+
+    @Override
+    public String testClucherOrder(Long orderId) {
+        return serviceOrderClient.testClucherOrder(orderId);
+    }
 }

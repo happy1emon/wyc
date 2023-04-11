@@ -10,4 +10,8 @@ import com.xg.internalcommon.request.OrderRequest;
 public interface OrderService {
 
     ResponseResult add(OrderRequest orderRequest);
+
+    String testClucherOrder(Long orderId);
+
+
 }
