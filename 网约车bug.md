@@ -42,3 +42,31 @@ public ResponseResult getUserByPhone(@PathVariable("phone") String phone)
 ### Spring boot 的Transactional
 
 这个Transactional不能回滚事务过程中redis的操作 但是可以回滚mysql的
+
+### 并发问题
+
+#### 1、订单服务如果遇到并发问题 需要加sychronized锁
+
+但是只能解决单机问题 如果在集群中 锁只能锁jvm级别的 所以在集群中无法满足一致性
+
+N个集群就可能会导致N个同步数据
+
+##### 解决1：用redis的setnx
+
+SET if Not Exists：
+
+引入redisson依赖
+
+```java
+<dependency>
+    <groupId>org.redisson</groupId>
+    <artifactId>redisson</artifactId>
+    <version>3.17.7</version>
+</dependency>
+```
+
+![](C:\Users\19855\AppData\Roaming\msbmarkdown\images\2023-04-11-22-02-08-image.png)
+
+但是出现了死锁
+
+##### 解决2：用seata

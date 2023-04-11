@@ -17,6 +17,8 @@ import com.xg.serviceorder.remote.ServicePriceClient;
 import com.xg.serviceorder.service.OrderInfoService;
 import com.xg.serviceorder.mapper.OrderInfoMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -39,7 +41,6 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         implements OrderInfoService {
 
 
-
     @Autowired
     private OrderInfoMapper orderInfoMapper;
 
@@ -54,6 +55,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     @Autowired
     private ServiceMapClient serviceMapClient;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Override
     @Transactional
@@ -142,12 +146,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         }
         return false;
     }
+
     @Override
     /**
      * 实时订单派单逻辑
      * @param orderInfo orderInfo
      */
-    public synchronized Boolean dispatchRealTimeOrder(OrderInfo orderInfo) {
+    public Boolean dispatchRealTimeOrder(OrderInfo orderInfo) {
         String depLongitude = orderInfo.getDepLongitude();
         String depLatitude = orderInfo.getDepLatitude();
         String center = depLatitude + "," + depLongitude;
@@ -180,30 +185,35 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 Long driverId = driverResponse.getDriverId();
                 //锁司机id小技巧 变成字符串之后放到常量池里
                 // .intern()防止一直创造新的String对象造成锁的不是一个数据
+                //用redis来锁
+                String lockKey = (driverId + "").intern();
+                RLock lock = redissonClient.getLock(lockKey);
+                lock.lock();
 //                synchronized ((driverId+"").intern()){
-                    List<Integer> orderStatus = orderInfoMapper.isOrderGoingOnByDriverId(driverId);
-                    if (orderStatus.get(0)>0) {
-                        continue;
-                    }
-                    // 且没有订单的司机
-                    // 找到符合的车辆进行派单 先不管司机接不接 派就完了
-                    orderInfo.setReceiveOrderTime(LocalDateTime.now());
-                    orderInfo.setReceiveOrderCarLongitude(terminalResponse.getLongitude());
-                    orderInfo.setReceiveOrderCarLatitude(terminalResponse.getLatitude());
-                    orderInfo.setCarId(carId);
-                    orderInfo.setDriverId(driverId);
-                    orderInfo.setLicenseId(driverResponse.getLicenseId());
-                    orderInfo.setDriverPhone(driverResponse.getDriverPhone());
-                    orderInfo.setVehicleNo(driverResponse.getVehicleNo());
-                    orderInfo.setOrderStatus(OrderConstants.DRIVER_RECEIVE_ORDER);
-                    orderInfo.setGmtModified(LocalDateTime.now());
-                    UpdateWrapper<OrderInfo> orderInfoUpdateWrapper=new UpdateWrapper<>();
-                    orderInfoUpdateWrapper.eq("id",orderInfo.getId());
-                    int update = orderInfoMapper.update(orderInfo,orderInfoUpdateWrapper);
-                    //派单成功 退出循环
-                    if (update >= 1) {
-                        return true;
-                    }
+                List<Integer> orderStatus = orderInfoMapper.isOrderGoingOnByDriverId(driverId);
+                if (orderStatus.get(0) > 0) {
+                    continue;
+                }
+                // 且没有订单的司机
+                // 找到符合的车辆进行派单 先不管司机接不接 派就完了
+                orderInfo.setReceiveOrderTime(LocalDateTime.now());
+                orderInfo.setReceiveOrderCarLongitude(terminalResponse.getLongitude());
+                orderInfo.setReceiveOrderCarLatitude(terminalResponse.getLatitude());
+                orderInfo.setCarId(carId);
+                orderInfo.setDriverId(driverId);
+                orderInfo.setLicenseId(driverResponse.getLicenseId());
+                orderInfo.setDriverPhone(driverResponse.getDriverPhone());
+                orderInfo.setVehicleNo(driverResponse.getVehicleNo());
+                orderInfo.setOrderStatus(OrderConstants.DRIVER_RECEIVE_ORDER);
+                orderInfo.setGmtModified(LocalDateTime.now());
+                UpdateWrapper<OrderInfo> orderInfoUpdateWrapper = new UpdateWrapper<>();
+                orderInfoUpdateWrapper.eq("id", orderInfo.getId());
+                int update = orderInfoMapper.update(orderInfo, orderInfoUpdateWrapper);
+                //派单成功 退出循环
+                if (update >= 1) {
+                    lock.unlock();
+                    return true;
+                }
 //                }
             }
         }
