@@ -1,9 +1,13 @@
 package com.xg.serviceorder.remote;
 
 import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.response.OrderDriverResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
 
 /**
  * @USER: XGGG
@@ -16,5 +20,6 @@ public interface ServiceDriverUserClient {
     @GetMapping("/city-driver/is-available-driver")
     ResponseResult<Boolean> isAvailableDriver(@RequestParam String cityCode);
 
-
+    @GetMapping("/get-available-driver/{carId}")
+    ResponseResult<OrderDriverResponse> getAvailableDriver(@PathVariable("carId") Long carId);
 }

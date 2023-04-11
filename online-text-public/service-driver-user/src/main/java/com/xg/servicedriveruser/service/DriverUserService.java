@@ -2,6 +2,9 @@ package com.xg.servicedriveruser.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.DriverUser;
+import com.xg.internalcommon.response.OrderDriverResponse;
+
+import java.util.ArrayList;
 
 /**
 * @author junxuan
@@ -14,4 +17,6 @@ public interface DriverUserService extends IService<DriverUser> {
     ResponseResult addDriverUser(DriverUser driverUser);
     ResponseResult updateDriverUser(DriverUser driverUser);
     ResponseResult<DriverUser> queryDriverPhone(String driverPhone);
+    ResponseResult<OrderDriverResponse> getAvailableDriver(Long carId);
+
 }

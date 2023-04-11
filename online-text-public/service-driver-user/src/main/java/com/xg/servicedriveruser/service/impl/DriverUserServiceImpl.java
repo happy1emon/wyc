@@ -9,12 +9,14 @@ import com.xg.internalcommon.constant.DriverWorkStatusConstants;
 import com.xg.internalcommon.dto.DriverUserWorkStatus;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.DriverUser;
+import com.xg.internalcommon.response.OrderDriverResponse;
 import com.xg.servicedriveruser.mapper.DriverUserMapper;
 import com.xg.servicedriveruser.mapper.DriverUserWorkStatusMapper;
 import com.xg.servicedriveruser.service.DriverUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -78,6 +80,16 @@ public class DriverUserServiceImpl extends ServiceImpl<DriverUserMapper, DriverU
         }
         DriverUser driverUser=driverUsers.get(0);
         return ResponseResult.success(driverUser);
+    }
+
+
+    @Override
+    public ResponseResult<OrderDriverResponse> getAvailableDriver(Long carId) {
+        List<OrderDriverResponse> availableDriver = driverUserMapper.getAvailableDriver(carId);
+        if (availableDriver.size()==0){
+            return ResponseResult.fail(CommonStatusEnum.NO_AVAILABLE_DRIVER.getCode(),CommonStatusEnum.NO_AVAILABLE_DRIVER_AROUND.getValue());
+        }
+        return ResponseResult.success(availableDriver.get(0));
     }
 }
 

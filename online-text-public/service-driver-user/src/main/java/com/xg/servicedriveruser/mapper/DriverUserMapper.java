@@ -1,7 +1,11 @@
 package com.xg.servicedriveruser.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xg.internalcommon.dto.DriverUser;
+import com.xg.internalcommon.response.OrderDriverResponse;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 * @author junxuan
@@ -11,6 +15,8 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface DriverUserMapper extends BaseMapper<DriverUser> {
+
+    List<OrderDriverResponse> getAvailableDriver(Long carId);
 
 }
 

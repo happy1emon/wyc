@@ -33,9 +33,12 @@ public ResponseResult getUserByPhone(@PathVariable("phone") String phone)
 或者在pom中引入 version=10.10.1
 
 ```java
-
   <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
         </dependency>
 ```
+
+### Spring boot 的Transactional
+
+这个Transactional不能回滚事务过程中redis的操作 但是可以回滚mysql的

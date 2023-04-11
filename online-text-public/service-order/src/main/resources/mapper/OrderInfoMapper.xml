@@ -69,5 +69,9 @@
         select order_status from order_info where passenger_id = ${passengerId}
     </select>
 
+    <select id="isOrderGoingOnByDriverId" resultType="integer">
+        select order_status from order_info where driver_id = ${driverId}
+    </select>
+
 
 </mapper>

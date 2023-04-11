@@ -4,11 +4,14 @@ import com.xg.internalcommon.constant.DriverCarConstants;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.dto.DriverUser;
 import com.xg.internalcommon.response.DriverUserExistsResponse;
+import com.xg.internalcommon.response.OrderDriverResponse;
 import com.xg.servicedriveruser.service.DriverUserService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @Slf4j
@@ -41,6 +44,11 @@ public class UserController {
         response.setIfExists(ifExists);
         response.setDriverPhone(driverPhone);
         return ResponseResult.success(response);
+    }
+
+    @GetMapping("/get-available-driver/{carId}")
+    public ResponseResult<OrderDriverResponse> getAvailableDriver(@PathVariable("carId") Long carId){
+        return driverUserService.getAvailableDriver(carId);
     }
 
 

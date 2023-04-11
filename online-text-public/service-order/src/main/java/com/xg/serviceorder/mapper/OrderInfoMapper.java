@@ -18,6 +18,7 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
 
     List<Integer> isValid(Long passengerId);
 
+    Integer isOrderGoingOnByDriverId(Long driverId);
 }
 
 

@@ -5,33 +5,33 @@
 <mapper namespace="com.xg.servicedriveruser.mapper.DriverUserMapper">
 
     <resultMap id="BaseResultMap" type="com.xg.internalcommon.dto.DriverUser">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="address" column="address" jdbcType="CHAR"/>
-            <result property="driverName" column="driver_name" jdbcType="VARCHAR"/>
-            <result property="driverPhone" column="driver_phone" jdbcType="VARCHAR"/>
-            <result property="driverGender" column="driver_gender" jdbcType="TINYINT"/>
-            <result property="driverBirthday" column="driver_birthday" jdbcType="DATE"/>
-            <result property="driverNation" column="driver_nation" jdbcType="CHAR"/>
-            <result property="driverContactAddress" column="driver_contact_address" jdbcType="VARCHAR"/>
-            <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
-            <result property="getDriverLisenceDate" column="get_driver_lisence_date" jdbcType="DATE"/>
-            <result property="driverLicenseOn" column="driver_license_on" jdbcType="DATE"/>
-            <result property="driverLicenseOff" column="driver_license_off" jdbcType="DATE"/>
-            <result property="taxiDriver" column="taxi_driver" jdbcType="TINYINT"/>
-            <result property="certificateNo" column="certificate_no" jdbcType="VARCHAR"/>
-            <result property="networkCarIssueOrganization" column="network_car_issue_organization" jdbcType="VARCHAR"/>
-            <result property="networkCarIssueDate" column="network_car_issue_date" jdbcType="DATE"/>
-            <result property="getNetworkCarProofDate" column="get_network_car_proof_date" jdbcType="DATE"/>
-            <result property="networkCarProofOn" column="network_car_proof_on" jdbcType="DATE"/>
-            <result property="networkCarProofOff" column="network_car_proof_off" jdbcType="DATE"/>
-            <result property="registerDate" column="register_date" jdbcType="DATE"/>
-            <result property="commercialType" column="commercial_type" jdbcType="TINYINT"/>
-            <result property="contractCompany" column="contract_company" jdbcType="VARCHAR"/>
-            <result property="contractOn" column="contract_on" jdbcType="DATE"/>
-            <result property="contractOff" column="contract_off" jdbcType="DATE"/>
-            <result property="state" column="state" jdbcType="TINYINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="address" column="address" jdbcType="CHAR"/>
+        <result property="driverName" column="driver_name" jdbcType="VARCHAR"/>
+        <result property="driverPhone" column="driver_phone" jdbcType="VARCHAR"/>
+        <result property="driverGender" column="driver_gender" jdbcType="TINYINT"/>
+        <result property="driverBirthday" column="driver_birthday" jdbcType="DATE"/>
+        <result property="driverNation" column="driver_nation" jdbcType="CHAR"/>
+        <result property="driverContactAddress" column="driver_contact_address" jdbcType="VARCHAR"/>
+        <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
+        <result property="getDriverLisenceDate" column="get_driver_lisence_date" jdbcType="DATE"/>
+        <result property="driverLicenseOn" column="driver_license_on" jdbcType="DATE"/>
+        <result property="driverLicenseOff" column="driver_license_off" jdbcType="DATE"/>
+        <result property="taxiDriver" column="taxi_driver" jdbcType="TINYINT"/>
+        <result property="certificateNo" column="certificate_no" jdbcType="VARCHAR"/>
+        <result property="networkCarIssueOrganization" column="network_car_issue_organization" jdbcType="VARCHAR"/>
+        <result property="networkCarIssueDate" column="network_car_issue_date" jdbcType="DATE"/>
+        <result property="getNetworkCarProofDate" column="get_network_car_proof_date" jdbcType="DATE"/>
+        <result property="networkCarProofOn" column="network_car_proof_on" jdbcType="DATE"/>
+        <result property="networkCarProofOff" column="network_car_proof_off" jdbcType="DATE"/>
+        <result property="registerDate" column="register_date" jdbcType="DATE"/>
+        <result property="commercialType" column="commercial_type" jdbcType="TINYINT"/>
+        <result property="contractCompany" column="contract_company" jdbcType="VARCHAR"/>
+        <result property="contractOn" column="contract_on" jdbcType="DATE"/>
+        <result property="contractOff" column="contract_off" jdbcType="DATE"/>
+        <result property="state" column="state" jdbcType="TINYINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -45,4 +45,13 @@
         contract_company,contract_on,contract_off,
         state,gmt_create,gmt_modified
     </sql>
+    <select id="getAvailableDriver" resultType="com.xg.internalcommon.response.OrderDriverResponse">
+        SELECT T3.driver_phone, T1.driver_id, T2.car_id
+        FROM driver_user_work_status AS T1
+                 LEFT JOIN driver_car_binding_relationship AS T2
+                           ON T1.driver_id = T2.driver_id
+                 RIGHT JOIN driver_user as T3
+                            ON T1.driver_id = T3.id
+        WHERE T1.work_status = 1 and T2.car_id=${carId} and T2.bind_state = 1
+    </select>
 </mapper>

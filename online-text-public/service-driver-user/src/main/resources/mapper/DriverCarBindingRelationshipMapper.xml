@@ -22,7 +22,6 @@
         SELECT COUNT(*)
         FROM v_city_driver_user_work_status
         where city_code = ${cityCode}
-          and work_status = 1
     </select>
 
 

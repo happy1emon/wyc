@@ -14,6 +14,7 @@ public enum CommonStatusEnum {
      */
     DEVICE_IS_BLACK(1601,"该设备超过下单次数"),
     CITY_SERVICE_INAVAILABLE(1602,"该城市不提供该服务"),
+    ORDER_CREATE_FAIL(1603,"订单创建失败"),
 
 
     DRIVER_CAR_BIND_NOT_EXISTS(1500,"司机和车辆绑定关系不存在"),
@@ -36,7 +37,6 @@ public enum CommonStatusEnum {
     PRICE_RULE_EXISTS(1301,"计价规则已经存在"),
     PRICE_RULE_NOT_EDIT(1302,"计价规则没有变化"),
     PRICE_RULE_NOT_SAME(1303,"当前不是最新计价规则"),
-
 
     /**
      * token error code in [1100,1199]
