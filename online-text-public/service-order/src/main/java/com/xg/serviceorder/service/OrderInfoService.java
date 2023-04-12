@@ -30,4 +30,8 @@ public interface OrderInfoService extends IService<OrderInfo> {
 
 
     ResponseResult arrivedDeparture(OrderRequest orderRequest);
+
+    ResponseResult PickUpPassenger(OrderRequest orderRequest);
+
+    ResponseResult passengerGetoff(OrderRequest orderRequest);
 }

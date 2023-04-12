@@ -96,6 +96,27 @@ public class TerminalClient {
         return ResponseResult.success(res);
     }
 
+    public ResponseResult trsearch(String tid, Long starttime, Long endtime) {
+        StringBuilder url=new StringBuilder(AmapConfigConstants.TERMINAL_TRSEARCH);
+        url.append("?");
+        url.append("key="+amapKey);
+        url.append("&");
+        url.append("sid="+amapSid);
+        url.append("&");
+        url.append("tid="+tid);
+        url.append("&");
+        url.append("starttime=").append(starttime);
+        url.append("&");
+        url.append("endtime=").append(endtime);
+        System.out.println("高德地图查询轨迹请求："+ url.toString());
+        ResponseEntity<String> forEntity = restTemplate.getForEntity(url.toString(), String.class);
+        System.out.println("响应："+forEntity.getBody());
+    
 
 
+
+        return ResponseResult.success("");
+
+
+    }
 }

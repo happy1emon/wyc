@@ -100,6 +100,23 @@ public class OrderRequest {
      * 接客地点
      */
     private String toPickUpPassengerAddress;
+    /**
+     * 司机接到客人经度
+     */
+    private String pickUpPassengerLongitude;
 
+    /**
+     * 司机街道客人纬度
+     */
+    private String pickUpPassengerLatitude;
+    /**
+     * 乘客下车经度
+     */
+    private String passengerGetoffLongitude;
+
+    /**
+     * 乘客下车纬度
+     */
+    private String passengerGetoffLatitude;
 
 }

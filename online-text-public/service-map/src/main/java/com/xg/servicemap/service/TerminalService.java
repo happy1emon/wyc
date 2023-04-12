@@ -15,4 +15,6 @@ public interface TerminalService {
     ResponseResult add(String terminalName,Long desc);
 
     ResponseResult<ArrayList<TerminalResponse>> aroundSearch(String center, String radius);
+
+    ResponseResult trsearch(String tid,Long starttime,Long endtime);
 }

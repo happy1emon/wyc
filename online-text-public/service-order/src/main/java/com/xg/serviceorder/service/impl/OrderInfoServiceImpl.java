@@ -182,7 +182,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 String lockKey = (driverId + "").intern();
                 RLock lock = redissonClient.getLock(lockKey);
                 lock.lock();
-//                synchronized ((driverId+"").intern()){
+                // synchronized ((driverId+"").intern()){
                 List<Integer> orderStatus = orderInfoMapper.isOrderGoingOnByDriverId(driverId);
                 if (orderStatus.get(0) > 0) {
                     //这里没有unlock 会造成死锁
@@ -226,6 +226,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
+    @Transactional
     public ResponseResult toPickUpPassenger(OrderRequest orderRequest) {
         System.out.println(orderRequest);
         Long orderId = orderRequest.getOrderId();
@@ -247,6 +248,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
+    @Transactional
     public ResponseResult arrivedDeparture(OrderRequest orderRequest) {
         Long orderId = orderRequest.getOrderId();
         QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
@@ -255,6 +257,40 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setGmtModified(LocalDateTime.now());
         orderInfo.setOrderStatus(OrderConstants.DRIVER_ARRIVED_DEPARTURE);
         orderInfo.setDriverArrivedDepartureTime(LocalDateTime.now());
+        orderInfoMapper.updateById(orderInfo);
+        return ResponseResult.success("");
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult PickUpPassenger(OrderRequest orderRequest) {
+        Long orderId = orderRequest.getOrderId();
+        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",orderId);
+        OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
+        orderInfo.setPickUpPassengerLongitude(orderRequest.getPickUpPassengerLongitude());
+        orderInfo.setPickUpPassengerLatitude(orderRequest.getPickUpPassengerLatitude());
+        orderInfo.setPickUpPassengerTime(LocalDateTime.now());
+        orderInfo.setOrderStatus(OrderConstants.PICK_UP_PASSENGER);
+        orderInfo.setGmtModified(LocalDateTime.now());
+        orderInfoMapper.updateById(orderInfo);
+        return ResponseResult.success("");
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult passengerGetoff(OrderRequest orderRequest) {
+        Long orderId = orderRequest.getOrderId();
+        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",orderId);
+        OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
+        orderInfo.setPassengerGetoffLongitude(orderRequest.getPassengerGetoffLongitude());
+        orderInfo.setPassengerGetoffLatitude(orderRequest.getPassengerGetoffLatitude());
+        orderInfo.setPassengerGetoffTime(LocalDateTime.now());
+        orderInfo.setOrderStatus(OrderConstants.PASSENGER_GETOFF);
+        orderInfo.setGmtModified(LocalDateTime.now());
+        //缺少订单行驶的路程和时间
+
         orderInfoMapper.updateById(orderInfo);
         return ResponseResult.success("");
     }

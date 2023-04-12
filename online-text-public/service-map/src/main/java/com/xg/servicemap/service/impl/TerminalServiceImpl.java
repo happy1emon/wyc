@@ -33,4 +33,9 @@ public class TerminalServiceImpl implements TerminalService {
 
         return terminalClient.aroundSearch(center,radius);
     }
+
+    @Override
+    public ResponseResult trsearch(String tid, Long starttime, Long endtime) {
+        return terminalClient.trsearch(tid,starttime,endtime);
+    }
 }
