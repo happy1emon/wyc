@@ -11,4 +11,10 @@ public interface OrderInfoService {
 
 
     ResponseResult toPickUpPassenger(OrderRequest orderRequest);
+
+    ResponseResult arrivedDeparture(OrderRequest orderRequest);
+
+    ResponseResult PickUpPassenger(OrderRequest orderRequest);
+
+    ResponseResult passengerGetoff(OrderRequest orderRequest);
 }

@@ -22,4 +22,19 @@ public class OrderInfoServiceImp implements OrderInfoService {
     public ResponseResult toPickUpPassenger(OrderRequest orderRequest) {
         return serviceOrderClient.toPickUpPassenger(orderRequest);
     }
+
+    @Override
+    public ResponseResult arrivedDeparture(OrderRequest orderRequest) {
+        return serviceOrderClient.arrivedDeparture(orderRequest);
+    }
+
+    @Override
+    public ResponseResult PickUpPassenger(OrderRequest orderRequest) {
+        return serviceOrderClient.pickUpPassenger(orderRequest);
+    }
+
+    @Override
+    public ResponseResult passengerGetoff(OrderRequest orderRequest) {
+        return serviceOrderClient.passengerGetoff(orderRequest);
+    }
 }
