@@ -16,7 +16,7 @@
         <module>internal-common</module>
         <module>service-passenger-user</module>
         <module>service-verficationcode</module>
-        <module>sse-driver-client-web</module>
+        <module>service-sse-push</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

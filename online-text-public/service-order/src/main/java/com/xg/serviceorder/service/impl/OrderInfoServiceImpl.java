@@ -2,8 +2,11 @@ package com.xg.serviceorder.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sun.scenario.effect.Identity;
 import com.xg.internalcommon.constant.CommonStatusEnum;
+import com.xg.internalcommon.constant.IdentityConstant;
 import com.xg.internalcommon.constant.OrderConstants;
+import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.OrderInfo;
 import com.xg.internalcommon.dto.PriceRule;
 import com.xg.internalcommon.dto.ResponseResult;
@@ -14,9 +17,11 @@ import com.xg.internalcommon.utils.RedisPrefixUtils;
 import com.xg.serviceorder.remote.ServiceDriverUserClient;
 import com.xg.serviceorder.remote.ServiceMapClient;
 import com.xg.serviceorder.remote.ServicePriceClient;
+import com.xg.serviceorder.remote.ServiceSsePushClient;
 import com.xg.serviceorder.service.OrderInfoService;
 import com.xg.serviceorder.mapper.OrderInfoMapper;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +30,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.attribute.standard.JobSheets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +64,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     @Autowired
     private RedissonClient redissonClient;
+
+    @Autowired
+    private ServiceSsePushClient serviceSsePushClient;
 
     @Override
     @Transactional
@@ -211,12 +220,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 UpdateWrapper<OrderInfo> orderInfoUpdateWrapper = new UpdateWrapper<>();
                 orderInfoUpdateWrapper.eq("id", orderInfo.getId());
                 int update = orderInfoMapper.update(orderInfo, orderInfoUpdateWrapper);
+                //通知司机
+                //通知信息拼接
+                JSONObject driverContent = generatePushDriverContent(orderInfo);
+                JSONObject passengerContent = generatePushPassengerContent(orderInfo);
+                serviceSsePushClient.push(driverId, IdentityConstant.DRIVER_IDENTITY,driverContent.toString());
+                serviceSsePushClient.push(orderInfo.getPassengerId(), IdentityConstant.PASSENGER_IDENTITY,passengerContent.toString());
                 lock.unlock();
                 //派单成功 退出循环
                 if (update >= 1) {
                     return true;
                 }
-//                }
             }
         }
         UpdateWrapper<OrderInfo> uw = new UpdateWrapper<>();
@@ -225,6 +239,45 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         //如果没找到 则订单无效
         int update = orderInfoMapper.update(null, uw);
         return false;
+    }
+
+    private JSONObject generatePushDriverContent(OrderInfo orderInfo) {
+        JSONObject driverContent = new JSONObject();
+        driverContent.put("passengerPhone", orderInfo.getPassengerPhone());
+        driverContent.put("passengerId", orderInfo.getPassengerId());
+        driverContent.put("departure", orderInfo.getDeparture());
+        driverContent.put("depLongitude", orderInfo.getDepLongitude());
+        driverContent.put("depLatitude", orderInfo.getDepLatitude());
+        driverContent.put("departTime", orderInfo.getDepartTime());
+        driverContent.put("destination", orderInfo.getDestination());
+        driverContent.put("destLongitude", orderInfo.getDestLongitude());
+        driverContent.put("destLatitude", orderInfo.getDestLatitude());
+        return driverContent;
+    }
+    private JSONObject generatePushPassengerContent(OrderInfo orderInfo) {
+        JSONObject passengerContent = new JSONObject();
+        passengerContent.put("driverId", orderInfo.getDriverId());
+        passengerContent.put("driverPhone", orderInfo.getDriverPhone());
+        passengerContent.put("vehicleNo", orderInfo.getVehicleNo());
+        //待补充
+
+        //到达时间
+
+        //距离
+
+        passengerContent.put("receiveOrderCarLongitude", orderInfo.getReceiveOrderCarLongitude());
+        passengerContent.put("receiveOrderCarLatitude", orderInfo.getReceiveOrderCarLatitude());
+
+        //汽车信息
+        ResponseResult<Car> carById = serviceDriverUserClient.getCarById(orderInfo.getCarId());
+        Car carData = carById.getData();
+        passengerContent.put("brand",carData.getBrand());
+        passengerContent.put("model",carData.getModel());
+        passengerContent.put("color",carData.getVehicleColor());
+
+
+
+        return passengerContent;
     }
 
 }
