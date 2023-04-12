@@ -29,5 +29,5 @@ public interface OrderInfoService extends IService<OrderInfo> {
     ResponseResult toPickUpPassenger(OrderRequest orderRequest);
 
 
-
+    ResponseResult arrivedDeparture(OrderRequest orderRequest);
 }

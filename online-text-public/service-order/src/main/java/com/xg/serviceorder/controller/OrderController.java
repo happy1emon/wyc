@@ -39,5 +39,18 @@ public class OrderController {
     }
 
 
+    /**
+     * 到达乘客的位置
+     * @param orderRequest
+     * @return
+     */
+    @PostMapping("/arrived-departure")
+    public ResponseResult arrivedDeparture(@RequestBody OrderRequest orderRequest){
+
+        return orderInfoService.arrivedDeparture(orderRequest);
+    }
+
+
+
 
 }

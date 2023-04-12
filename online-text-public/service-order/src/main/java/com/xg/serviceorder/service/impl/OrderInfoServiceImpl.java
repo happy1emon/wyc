@@ -241,6 +241,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setToPickUpPassengerLatitude(toPickUpPassengerLatitude);
         orderInfo.setToPickUpPassengerTime(toPickUpPassengerTime);
         orderInfo.setOrderStatus(OrderConstants.DRIVER_TO_PICK_UP_PASSENGER);
+        orderInfo.setGmtModified(LocalDateTime.now());
+        orderInfoMapper.updateById(orderInfo);
+        return ResponseResult.success("");
+    }
+
+    @Override
+    public ResponseResult arrivedDeparture(OrderRequest orderRequest) {
+        Long orderId = orderRequest.getOrderId();
+        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",orderId);
+        OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
+        orderInfo.setGmtModified(LocalDateTime.now());
+        orderInfo.setOrderStatus(OrderConstants.DRIVER_ARRIVED_DEPARTURE);
+        orderInfo.setDriverArrivedDepartureTime(LocalDateTime.now());
         orderInfoMapper.updateById(orderInfo);
         return ResponseResult.success("");
     }
