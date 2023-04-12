@@ -2,6 +2,7 @@ package com.xg.servicemap.service.impl;
 
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.response.TerminalResponse;
+import com.xg.internalcommon.response.TrsearchResponse;
 import com.xg.servicemap.remote.TerminalClient;
 import com.xg.servicemap.service.TerminalService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class TerminalServiceImpl implements TerminalService {
     }
 
     @Override
-    public ResponseResult trsearch(String tid, Long starttime, Long endtime) {
+    public ResponseResult<TrsearchResponse> trsearch(String tid, Long starttime, Long endtime) {
         return terminalClient.trsearch(tid,starttime,endtime);
     }
 }

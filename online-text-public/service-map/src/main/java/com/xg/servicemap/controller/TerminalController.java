@@ -1,6 +1,7 @@
 package com.xg.servicemap.controller;
 
 import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.response.TrsearchResponse;
 import com.xg.servicemap.service.TerminalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class TerminalController {
     }
 
     @PostMapping("/trsearch")
-    public ResponseResult trsearch(String tid,Long starttime,Long endtime){
+    public ResponseResult<TrsearchResponse> trsearch(String tid, Long starttime, Long endtime){
         return terminalService.trsearch(tid,starttime,endtime);
     }
 

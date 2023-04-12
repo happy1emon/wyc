@@ -2,6 +2,7 @@ package com.xg.servicemap.service;
 
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.response.TerminalResponse;
+import com.xg.internalcommon.response.TrsearchResponse;
 
 import java.util.ArrayList;
 
@@ -16,5 +17,5 @@ public interface TerminalService {
 
     ResponseResult<ArrayList<TerminalResponse>> aroundSearch(String center, String radius);
 
-    ResponseResult trsearch(String tid,Long starttime,Long endtime);
+    ResponseResult<TrsearchResponse> trsearch(String tid, Long starttime, Long endtime);
 }

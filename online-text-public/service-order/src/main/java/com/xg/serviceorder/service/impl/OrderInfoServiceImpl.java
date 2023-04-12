@@ -14,6 +14,7 @@ import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.request.OrderRequest;
 import com.xg.internalcommon.response.OrderDriverResponse;
 import com.xg.internalcommon.response.TerminalResponse;
+import com.xg.internalcommon.response.TrsearchResponse;
 import com.xg.internalcommon.utils.RedisPrefixUtils;
 import com.xg.serviceorder.remote.ServiceDriverUserClient;
 import com.xg.serviceorder.remote.ServiceMapClient;
@@ -23,6 +24,7 @@ import com.xg.serviceorder.service.OrderInfoService;
 import com.xg.serviceorder.mapper.OrderInfoMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.apache.tomcat.jni.Local;
 import org.aspectj.weaver.ast.Or;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -34,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.print.attribute.standard.JobSheets;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -290,6 +293,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setOrderStatus(OrderConstants.PASSENGER_GETOFF);
         orderInfo.setGmtModified(LocalDateTime.now());
         //缺少订单行驶的路程和时间
+        //调用map服务获取行程的路程和时间
+        Long carId = orderInfo.getCarId();
+        ResponseResult<Car> carById = serviceDriverUserClient.getCarById(carId);
+        Car data = carById.getData();
+        String tid = data.getTid();
+        long starttime = orderInfo.getPickUpPassengerTime().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        long endtime = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, starttime, endtime);
+        TrsearchResponse trsearchData = trsearch.getData();
+        orderInfo.setDriveTime(trsearchData.getDriveTime());
+        orderInfo.setDriveMile(trsearchData.getDriveMile());
 
         orderInfoMapper.updateById(orderInfo);
         return ResponseResult.success("");
