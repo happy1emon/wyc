@@ -192,6 +192,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 //                synchronized ((driverId+"").intern()){
                 List<Integer> orderStatus = orderInfoMapper.isOrderGoingOnByDriverId(driverId);
                 if (orderStatus.get(0) > 0) {
+                    //这里没有unlock 会造成死锁
+                    lock.unlock();
                     continue;
                 }
                 // 且没有订单的司机
@@ -209,9 +211,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 UpdateWrapper<OrderInfo> orderInfoUpdateWrapper = new UpdateWrapper<>();
                 orderInfoUpdateWrapper.eq("id", orderInfo.getId());
                 int update = orderInfoMapper.update(orderInfo, orderInfoUpdateWrapper);
+                lock.unlock();
                 //派单成功 退出循环
                 if (update >= 1) {
-                    lock.unlock();
                     return true;
                 }
 //                }
