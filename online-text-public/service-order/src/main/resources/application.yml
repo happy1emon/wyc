@@ -17,6 +17,8 @@ spring:
   redis:
     password: 123
     database: 0
+    host: 127.0.0.1
+    port: 6379
 
 # 设置多个端口
 ---
