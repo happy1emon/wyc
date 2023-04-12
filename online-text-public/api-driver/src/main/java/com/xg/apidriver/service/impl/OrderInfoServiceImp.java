@@ -1,0 +1,25 @@
+package com.xg.apidriver.service.impl;
+
+import com.xg.apidriver.remote.ServiceOrderClient;
+import com.xg.apidriver.service.OrderInfoService;
+import com.xg.internalcommon.dto.ResponseResult;
+import com.xg.internalcommon.request.OrderRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+
+/**
+ * @USER: XGGG
+ * @DATE: 2023/4/12
+ */
+@Service
+public class OrderInfoServiceImp implements OrderInfoService {
+
+    @Autowired
+    private ServiceOrderClient serviceOrderClient;
+
+    @Override
+    public ResponseResult toPickUpPassenger(OrderRequest orderRequest) {
+        return serviceOrderClient.toPickUpPassenger(orderRequest);
+    }
+}
