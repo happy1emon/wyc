@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
  */
 @Data
 public class OrderRequest {
+    /**
+     * 订单id
+     */
+    private Long orderId;
 
     /**
      * 乘客id
@@ -76,5 +80,26 @@ public class OrderRequest {
 
     //加入header携带的设备号
     private String deviceCode;
+    /**
+     * 预计接客时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime toPickUpPassengerTime;
+
+    /**
+     * 预计接客经度
+     */
+    private String toPickUpPassengerLongitude;
+
+    /**
+     * 预计接客纬度
+     */
+    private String toPickUpPassengerLatitude;
+
+    /**
+     * 接客地点
+     */
+    private String toPickUpPassengerAddress;
+
 
 }

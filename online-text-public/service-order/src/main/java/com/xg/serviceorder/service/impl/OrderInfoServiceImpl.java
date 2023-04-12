@@ -1,5 +1,6 @@
 package com.xg.serviceorder.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sun.scenario.effect.Identity;
@@ -22,6 +23,7 @@ import com.xg.serviceorder.service.OrderInfoService;
 import com.xg.serviceorder.mapper.OrderInfoMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.aspectj.weaver.ast.Or;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
@@ -98,11 +100,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         List<Integer> valid = orderInfoMapper.isValid(orderRequest.getPassengerId());
         if (valid.size() != 0) {
             Integer orderStatus = valid.get(0);
-            if (!(orderStatus.intValue() != OrderConstants.ORDER_INVALID || orderStatus.intValue() != OrderConstants.ORDER_CANCEL)) {
+            if (orderStatus.intValue() != OrderConstants.ORDER_INVALID && orderStatus.intValue() != OrderConstants.ORDER_CANCEL) {
                 return ResponseResult.fail(CommonStatusEnum.ORDER_IS_STARTING.getCode(), CommonStatusEnum.ORDER_IS_STARTING.getValue());
             }
         }
-
         //需要判断 下单的设备是否是黑名单设备 这里是防止短时间内刷单
         String deviceCode = orderRequest.getDeviceCode();
         //生成key
@@ -120,40 +121,23 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setGmtCreate(now);
         orderInfo.setGmtModified(now);
         orderInfoMapper.insert(orderInfo);
+        Boolean flag = false;
+        //循环查找 每20s找一轮 循环5轮
+        for (int i = 0; i < 6; i++) {
+            flag = dispatchRealTimeOrder(orderInfo);
+            if (flag)
+                break;
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
-        Boolean flag = dispatchRealTimeOrder(orderInfo);
         if (!flag) {
             return ResponseResult.fail(CommonStatusEnum.ORDER_CREATE_FAIL.getCode(), CommonStatusEnum.ORDER_CREATE_FAIL.getValue());
         }
         return ResponseResult.success("下单成功");
-    }
-
-    private Boolean ifExists(OrderRequest orderRequest) {
-        PriceRule priceRule = new PriceRule();
-        int index = orderRequest.getFareType().indexOf("$");
-        String cityCode = orderRequest.getFareType().substring(0, index);
-        String vehicleType = orderRequest.getFareType().substring(index + 1);
-        priceRule.setCityCode(cityCode);
-        priceRule.setVehicleType(vehicleType);
-        ResponseResult<Boolean> booleanResponseResult = servicePriceClient.ifExists(priceRule);
-        return booleanResponseResult.getData();
-    }
-
-    private boolean isBlackDevice(String deviceCodeKey) {
-        Boolean aBoolean = stringRedisTemplate.hasKey(deviceCodeKey);
-        if (aBoolean) {
-            String s = stringRedisTemplate.opsForValue().get(deviceCodeKey);
-            int i = Integer.parseInt(s);
-            if (i >= 2) {
-                //当前设备超过下单次数
-                return true;
-            } else {
-                stringRedisTemplate.opsForValue().increment(deviceCodeKey);
-            }
-        } else {
-            stringRedisTemplate.opsForValue().setIfAbsent(deviceCodeKey, "1", 1l, TimeUnit.HOURS);
-        }
-        return false;
     }
 
     @Override
@@ -224,8 +208,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 //通知信息拼接
                 JSONObject driverContent = generatePushDriverContent(orderInfo);
                 JSONObject passengerContent = generatePushPassengerContent(orderInfo);
-                serviceSsePushClient.push(driverId, IdentityConstant.DRIVER_IDENTITY,driverContent.toString());
-                serviceSsePushClient.push(orderInfo.getPassengerId(), IdentityConstant.PASSENGER_IDENTITY,passengerContent.toString());
+                serviceSsePushClient.push(driverId, IdentityConstant.DRIVER_IDENTITY, driverContent.toString());
+                serviceSsePushClient.push(orderInfo.getPassengerId(), IdentityConstant.PASSENGER_IDENTITY, passengerContent.toString());
                 lock.unlock();
                 //派单成功 退出循环
                 if (update >= 1) {
@@ -241,6 +225,26 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return false;
     }
 
+    @Override
+    public ResponseResult toPickUpPassenger(OrderRequest orderRequest) {
+        System.out.println(orderRequest);
+        Long orderId = orderRequest.getOrderId();
+        LocalDateTime toPickUpPassengerTime = orderRequest.getToPickUpPassengerTime();
+        String toPickUpPassengerAddress = orderRequest.getToPickUpPassengerAddress();
+        String toPickUpPassengerLongitude = orderRequest.getToPickUpPassengerLongitude();
+        String toPickUpPassengerLatitude = orderRequest.getToPickUpPassengerLatitude();
+        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",orderId);
+        OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
+        orderInfo.setToPickUpPassengerAddress(toPickUpPassengerAddress);
+        orderInfo.setToPickUpPassengerLongitude(toPickUpPassengerLongitude);
+        orderInfo.setToPickUpPassengerLatitude(toPickUpPassengerLatitude);
+        orderInfo.setToPickUpPassengerTime(toPickUpPassengerTime);
+        orderInfo.setOrderStatus(OrderConstants.DRIVER_TO_PICK_UP_PASSENGER);
+        orderInfoMapper.updateById(orderInfo);
+        return ResponseResult.success("");
+    }
+
     private JSONObject generatePushDriverContent(OrderInfo orderInfo) {
         JSONObject driverContent = new JSONObject();
         driverContent.put("passengerPhone", orderInfo.getPassengerPhone());
@@ -254,6 +258,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         driverContent.put("destLatitude", orderInfo.getDestLatitude());
         return driverContent;
     }
+
     private JSONObject generatePushPassengerContent(OrderInfo orderInfo) {
         JSONObject passengerContent = new JSONObject();
         passengerContent.put("driverId", orderInfo.getDriverId());
@@ -271,14 +276,42 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         //汽车信息
         ResponseResult<Car> carById = serviceDriverUserClient.getCarById(orderInfo.getCarId());
         Car carData = carById.getData();
-        passengerContent.put("brand",carData.getBrand());
-        passengerContent.put("model",carData.getModel());
-        passengerContent.put("color",carData.getVehicleColor());
-
+        passengerContent.put("brand", carData.getBrand());
+        passengerContent.put("model", carData.getModel());
+        passengerContent.put("color", carData.getVehicleColor());
 
 
         return passengerContent;
     }
+
+    private boolean isBlackDevice(String deviceCodeKey) {
+        Boolean aBoolean = stringRedisTemplate.hasKey(deviceCodeKey);
+        if (aBoolean) {
+            String s = stringRedisTemplate.opsForValue().get(deviceCodeKey);
+            int i = Integer.parseInt(s);
+            if (i >= 2) {
+                //当前设备超过下单次数
+                return true;
+            } else {
+                stringRedisTemplate.opsForValue().increment(deviceCodeKey);
+            }
+        } else {
+            stringRedisTemplate.opsForValue().setIfAbsent(deviceCodeKey, "1", 1l, TimeUnit.HOURS);
+        }
+        return false;
+    }
+
+    private Boolean ifExists(OrderRequest orderRequest) {
+        PriceRule priceRule = new PriceRule();
+        int index = orderRequest.getFareType().indexOf("$");
+        String cityCode = orderRequest.getFareType().substring(0, index);
+        String vehicleType = orderRequest.getFareType().substring(index + 1);
+        priceRule.setCityCode(cityCode);
+        priceRule.setVehicleType(vehicleType);
+        ResponseResult<Boolean> booleanResponseResult = servicePriceClient.ifExists(priceRule);
+        return booleanResponseResult.getData();
+    }
+
 
 }
 

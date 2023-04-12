@@ -33,6 +33,11 @@ public class OrderController {
         return orderInfoService.add(orderRequest);
     }
 
+    @PostMapping("/to-pick-up-passenger")
+    public ResponseResult changeStatus(@RequestBody OrderRequest orderRequest){
+        return orderInfoService.toPickUpPassenger(orderRequest);
+    }
+
 
 
 }
