@@ -325,6 +325,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return ResponseResult.success("");
     }
 
+    @Override
+    public ResponseResult pay(OrderRequest orderRequest) {
+        Long orderId = orderRequest.getOrderId();
+        OrderInfo orderInfo = orderInfoMapper.selectById(orderId);
+        orderInfo.setGmtModified(LocalDateTime.now());
+        orderInfo.setOrderStatus(OrderConstants.OVER_PAY);
+        orderInfoMapper.updateById(orderInfo);
+//        servicePayClient(orderRequest)
+        return ResponseResult.success("");
+    }
+
     private JSONObject generatePushDriverContent(OrderInfo orderInfo) {
         JSONObject driverContent = new JSONObject();
         driverContent.put("passengerPhone", orderInfo.getPassengerPhone());
