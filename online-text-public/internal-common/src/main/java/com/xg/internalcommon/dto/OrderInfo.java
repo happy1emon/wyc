@@ -215,6 +215,11 @@ public class OrderInfo implements Serializable {
     private Long driveTime;
 
     /**
+     * 价格
+     */
+    private Double price;
+
+    /**
      * 订单状态
      * 1:订单开始
      * 2:司机接单

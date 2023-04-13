@@ -15,6 +15,6 @@ public interface PriceService {
      * @param vehicleType 车辆类型
      * @return 啊
      */
-    ResponseResult calculatePrice(Integer distance, Integer duration, String cityCode , String vehicleType);
+    ResponseResult<Double> calculatePrice(Integer distance, Integer duration, String cityCode , String vehicleType);
 
 }

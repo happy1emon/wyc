@@ -314,9 +314,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         long endtime = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
         ResponseResult<TrsearchResponse> trsearch = serviceMapClient.trsearch(tid, starttime, endtime);
         TrsearchResponse trsearchData = trsearch.getData();
-        orderInfo.setDriveTime(trsearchData.getDriveTime());
-        orderInfo.setDriveMile(trsearchData.getDriveMile());
-
+        Long driveMile = trsearchData.getDriveMile();
+        Long driveTime = trsearchData.getDriveTime();
+        orderInfo.setDriveTime(driveTime);
+        orderInfo.setDriveMile(driveMile);
+        ResponseResult<Double> doubleResponseResult = servicePriceClient.calculatePrice(driveMile.intValue(), driveTime.intValue(), orderInfo.getAddress(), orderInfo.getVehicleType());
+        Double price = doubleResponseResult.getData();
+        orderInfo.setPrice(price);
         orderInfoMapper.updateById(orderInfo);
         return ResponseResult.success("");
     }

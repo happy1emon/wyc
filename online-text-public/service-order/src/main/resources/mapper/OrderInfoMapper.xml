@@ -45,6 +45,7 @@
         <result property="cancelTypeCode" column="cancel_type_code" jdbcType="INTEGER"/>
         <result property="driveMile" column="drive_mile" jdbcType="BIGINT"/>
         <result property="driveTime" column="drive_time" jdbcType="BIGINT"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
         <result property="orderStatus" column="order_status" jdbcType="INTEGER"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
         <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
@@ -63,7 +64,7 @@
         pick_up_passenger_longitude,pick_up_passenger_latitude,passenger_getoff_time,
         passenger_getoff_longitude,passenger_getoff_latitude,cancel_time,
         cancel_operator,cancel_type_code,drive_mile,
-        drive_time,order_status,gmt_create,
+        drive_time,price,order_status,gmt_create,
         gmt_modified
     </sql>
 

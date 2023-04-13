@@ -33,7 +33,7 @@ public class PriceController {
      * @return
      */
     @PostMapping("/calculate-price")
-    public ResponseResult calculatePrice(@RequestParam Integer distance, @RequestParam Integer duration,
+    public ResponseResult<Double> calculatePrice(@RequestParam Integer distance, @RequestParam Integer duration,
                                          @RequestParam String cityCode, @RequestParam String vehicleType) {
         System.out.println(distance+duration+cityCode+vehicleType);
         //入参是分钟 但是计算的时候是按秒来的

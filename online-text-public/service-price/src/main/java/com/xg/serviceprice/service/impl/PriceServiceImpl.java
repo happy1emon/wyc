@@ -58,7 +58,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public ResponseResult calculatePrice(Integer distance, Integer duration, String cityCode, String vehicleType) {
+    public ResponseResult<Double> calculatePrice(Integer distance, Integer duration, String cityCode, String vehicleType) {
         QueryWrapper<PriceRule> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("city_code",cityCode);
         queryWrapper.eq("vehicle_type",vehicleType);
