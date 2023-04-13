@@ -3,9 +3,7 @@ package com.xg.serviceorder.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xg.internalcommon.constant.CommonStatusEnum;
-import com.xg.internalcommon.constant.IdentityConstant;
-import com.xg.internalcommon.constant.OrderConstants;
+import com.xg.internalcommon.constant.*;
 import com.xg.internalcommon.dto.Car;
 import com.xg.internalcommon.dto.OrderInfo;
 import com.xg.internalcommon.dto.PriceRule;
@@ -23,6 +21,7 @@ import com.xg.serviceorder.service.OrderInfoService;
 import com.xg.serviceorder.mapper.OrderInfoMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.apache.tomcat.jni.Local;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -158,7 +158,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         radiusList.add(4000);
         radiusList.add(5000);
         //设置一个集合表示不能接单的司机 防止搜索的时候再次判断
-        HashSet<Long> unavailableCarSet=new HashSet<>();
+        HashSet<Long> unavailableCarSet = new HashSet<>();
         for (Integer integer : radiusList) {
             listResponseResult = serviceMapClient.aroundSearch(center, String.valueOf(integer));
             //获得终端
@@ -183,7 +183,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 }
                 OrderDriverResponse driverResponse = availableDriver.getData();
                 //判断车型
-                if (!orderInfo.getVehicleType().trim().equals(driverResponse.getVehicleType().trim())){
+                if (!orderInfo.getVehicleType().trim().equals(driverResponse.getVehicleType().trim())) {
                     unavailableCarSet.add(carId);
                     continue;
                 }
@@ -249,8 +249,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         String toPickUpPassengerAddress = orderRequest.getToPickUpPassengerAddress();
         String toPickUpPassengerLongitude = orderRequest.getToPickUpPassengerLongitude();
         String toPickUpPassengerLatitude = orderRequest.getToPickUpPassengerLatitude();
-        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("id",orderId);
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", orderId);
         OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
         orderInfo.setToPickUpPassengerAddress(toPickUpPassengerAddress);
         orderInfo.setToPickUpPassengerLongitude(toPickUpPassengerLongitude);
@@ -266,8 +266,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Transactional
     public ResponseResult arrivedDeparture(OrderRequest orderRequest) {
         Long orderId = orderRequest.getOrderId();
-        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("id",orderId);
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", orderId);
         OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
         orderInfo.setGmtModified(LocalDateTime.now());
         orderInfo.setOrderStatus(OrderConstants.DRIVER_ARRIVED_DEPARTURE);
@@ -280,8 +280,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Transactional
     public ResponseResult PickUpPassenger(OrderRequest orderRequest) {
         Long orderId = orderRequest.getOrderId();
-        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("id",orderId);
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", orderId);
         OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
         orderInfo.setPickUpPassengerLongitude(orderRequest.getPickUpPassengerLongitude());
         orderInfo.setPickUpPassengerLatitude(orderRequest.getPickUpPassengerLatitude());
@@ -296,8 +296,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Transactional
     public ResponseResult passengerGetoff(OrderRequest orderRequest) {
         Long orderId = orderRequest.getOrderId();
-        QueryWrapper<OrderInfo> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("id",orderId);
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", orderId);
         OrderInfo orderInfo = orderInfoMapper.selectOne(queryWrapper);
         orderInfo.setPassengerGetoffLongitude(orderRequest.getPassengerGetoffLongitude());
         orderInfo.setPassengerGetoffLatitude(orderRequest.getPassengerGetoffLatitude());
@@ -333,6 +333,67 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setOrderStatus(OrderConstants.OVER_PAY);
         orderInfoMapper.updateById(orderInfo);
 //        servicePayClient(orderRequest)
+        return ResponseResult.success("");
+    }
+
+    @Override
+    public ResponseResult cancel(Long orderId, String identity) {
+        //查询当前状态
+        OrderInfo orderInfo = orderInfoMapper.selectById(orderId);
+        Integer orderStatus = orderInfo.getOrderStatus();
+
+        LocalDateTime cancelTime = LocalDateTime.now();
+        Integer cancelOperator = null;
+        Integer cancelTypeCode = null;
+
+        //设置取消状态
+        //如果是乘客取消
+        if (identity.trim().equals(IdentityConstant.PASSENGER_IDENTITY)) {
+            cancelOperator = CancelOperatorConstants.PASSENGER_CANCEL;
+            switch (orderStatus) {
+                case OrderConstants.ORDER_START:
+                    cancelTypeCode= CancelTypeConstants.CANCEL_PASSENGER_BEFORE;
+                    break;
+                case OrderConstants.DRIVER_RECEIVE_ORDER:
+                    LocalDateTime receiveOrderTime = orderInfo.getReceiveOrderTime();
+                    long time = ChronoUnit.MINUTES.between(receiveOrderTime, cancelTime);
+                    if (time>1){
+                        cancelTypeCode = CancelTypeConstants.CANCEL_PASSENGER_ILLEGAL;
+                        orderInfo.setPrice(10.00);
+                    }else{
+                        cancelTypeCode = CancelTypeConstants.CANCEL_PASSENGER_BEFORE;
+                    }
+                    break;
+                default:
+                    cancelTypeCode = CancelTypeConstants.CANCEL_PASSENGER_ILLEGAL;
+                    orderInfo.setPrice(10.00);
+                    break;
+            }
+        }
+        //如果是司机取消
+        else if (identity.trim().equals(IdentityConstant.DRIVER_IDENTITY)) {
+            cancelOperator=CancelOperatorConstants.DRIVER_CANCEL;
+            if (orderStatus == OrderConstants.DRIVER_RECEIVE_ORDER) {
+                LocalDateTime receiveOrderTime = orderInfo.getReceiveOrderTime();
+                long time = ChronoUnit.MINUTES.between(receiveOrderTime, cancelTime);
+                if (time > 1) {
+                    cancelTypeCode = CancelTypeConstants.CANCEL_DRIVER_ILLEGAL;
+
+                } else {
+                    cancelTypeCode = CancelTypeConstants.CANCEL_DRIVER_BEFORE;
+                }
+            } else {
+                System.out.println("不可取消");
+                return ResponseResult.fail(CommonStatusEnum.ORDER_CANCEL_FAIL.getCode(),CommonStatusEnum.ORDER_CANCEL_FAIL.getValue());
+            }
+        }
+        //更新
+        orderInfo.setCancelTime(cancelTime);
+        orderInfo.setCancelOperator(cancelOperator);
+        orderInfo.setCancelTypeCode(cancelTypeCode);
+        orderInfo.setOrderStatus(OrderConstants.ORDER_CANCEL);
+        orderInfo.setGmtModified(LocalDateTime.now());
+        orderInfoMapper.updateById(orderInfo);
         return ResponseResult.success("");
     }
 

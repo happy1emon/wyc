@@ -2,6 +2,7 @@ package com.xg.apidriver.service.impl;
 
 import com.xg.apidriver.remote.ServiceOrderClient;
 import com.xg.apidriver.service.OrderInfoService;
+import com.xg.internalcommon.constant.IdentityConstant;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.request.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class OrderInfoServiceImp implements OrderInfoService {
     @Override
     public ResponseResult passengerGetoff(OrderRequest orderRequest) {
         return serviceOrderClient.passengerGetoff(orderRequest);
+    }
+
+    @Override
+    public ResponseResult cancel(Long orderId) {
+        return serviceOrderClient.cancel(orderId, IdentityConstant.DRIVER_IDENTITY);
     }
 }

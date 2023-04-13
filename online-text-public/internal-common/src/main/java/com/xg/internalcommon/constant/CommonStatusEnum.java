@@ -15,6 +15,7 @@ public enum CommonStatusEnum {
     DEVICE_IS_BLACK(1601,"该设备超过下单次数"),
     CITY_SERVICE_INAVAILABLE(1602,"该城市不提供该服务"),
     ORDER_CREATE_FAIL(1603,"订单创建失败"),
+    ORDER_CANCEL_FAIL(1604,"订单取消失败"),
 
 
     DRIVER_CAR_BIND_NOT_EXISTS(1500,"司机和车辆绑定关系不存在"),

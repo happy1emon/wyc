@@ -4,10 +4,7 @@ import com.xg.apidriver.service.OrderInfoService;
 import com.xg.internalcommon.dto.ResponseResult;
 import com.xg.internalcommon.request.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @USER: XGGG
@@ -37,6 +34,11 @@ public class OrderController {
     @PostMapping("/passenger-getoff")
     public ResponseResult passengerGetoff(@RequestBody OrderRequest orderRequest){
         return orderInfoService.passengerGetoff(orderRequest);
+    }
+
+    @PostMapping("/cancel")
+    public ResponseResult cancel(@RequestParam Long orderId){
+        return orderInfoService.cancel(orderId);
     }
 
 }

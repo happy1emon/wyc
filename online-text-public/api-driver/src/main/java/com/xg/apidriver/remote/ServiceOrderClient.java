@@ -28,4 +28,6 @@ public interface ServiceOrderClient {
     @PostMapping("/order/passenger-getoff")
     ResponseResult passengerGetoff(@RequestBody OrderRequest orderRequest);
 
+    @PostMapping("/order/cancel")
+    ResponseResult cancel(@RequestParam Long orderId,@RequestParam String identity);
 }

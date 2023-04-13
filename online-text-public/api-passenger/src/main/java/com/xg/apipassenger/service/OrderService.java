@@ -13,5 +13,5 @@ public interface OrderService {
 
     String testClucherOrder(Long orderId);
 
-
+    ResponseResult cancel(Long orderId);
 }

@@ -17,4 +17,6 @@ public interface OrderInfoService {
     ResponseResult PickUpPassenger(OrderRequest orderRequest);
 
     ResponseResult passengerGetoff(OrderRequest orderRequest);
+
+    ResponseResult cancel(Long orderId);
 }

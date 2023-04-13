@@ -6,10 +6,7 @@ import com.xg.internalcommon.request.OrderRequest;
 import com.xg.serviceorder.service.OrderInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -71,5 +68,9 @@ public class OrderController {
         return orderInfoService.pay(orderRequest);
     }
 
+    @PostMapping("/cancel")
+    public ResponseResult cancel(@RequestParam Long orderId,@RequestParam String identity){
+        return orderInfoService.cancel(orderId,identity);
+    }
 
 }

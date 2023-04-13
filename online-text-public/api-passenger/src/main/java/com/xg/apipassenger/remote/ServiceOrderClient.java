@@ -18,4 +18,6 @@ public interface ServiceOrderClient {
     @GetMapping("/test-real-time-order/{orderId}")
     String testClucherOrder(@PathVariable("orderId") Long orderId);
 
+    @PostMapping("/order/cancel")
+    ResponseResult cancel(@RequestParam Long orderId,@RequestParam String identity);
 }

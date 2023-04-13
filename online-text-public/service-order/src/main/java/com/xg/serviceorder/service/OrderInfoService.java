@@ -36,4 +36,6 @@ public interface OrderInfoService extends IService<OrderInfo> {
     ResponseResult passengerGetoff(OrderRequest orderRequest);
 
     ResponseResult pay(OrderRequest orderRequest);
+
+    ResponseResult cancel(Long orderId, String identity);
 }
