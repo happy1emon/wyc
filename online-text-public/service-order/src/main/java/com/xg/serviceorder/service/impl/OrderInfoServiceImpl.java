@@ -137,6 +137,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         }
 
         if (!flag) {
+            orderInfo.setGmtModified(LocalDateTime.now());
+            orderInfo.setOrderStatus(OrderConstants.ORDER_INVALID);
+            orderInfoMapper.updateById(orderInfo);
             return ResponseResult.fail(CommonStatusEnum.ORDER_CREATE_FAIL.getCode(), CommonStatusEnum.ORDER_CREATE_FAIL.getValue());
         }
         return ResponseResult.success("下单成功");
