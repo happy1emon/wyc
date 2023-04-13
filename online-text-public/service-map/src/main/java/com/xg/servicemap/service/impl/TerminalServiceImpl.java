@@ -31,7 +31,6 @@ public class TerminalServiceImpl implements TerminalService {
 
     @Override
     public ResponseResult<ArrayList<TerminalResponse>> aroundSearch(String center, String radius) {
-
         return terminalClient.aroundSearch(center,radius);
     }
 

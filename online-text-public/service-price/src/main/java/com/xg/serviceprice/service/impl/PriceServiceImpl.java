@@ -9,19 +9,17 @@ import com.xg.internalcommon.response.DirectionResponse;
 import com.xg.internalcommon.response.ForecastPriceResponse;
 import com.xg.serviceprice.mapper.PriceRuleMapper;
 import com.xg.serviceprice.remote.ServiceMapClient;
-import com.xg.serviceprice.service.ForecastPriceService;
+import com.xg.serviceprice.service.PriceService;
 import com.xg.serviceprice.utiles.PriceCount;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
-public class ForecastPriceServiceImpl implements ForecastPriceService {
+public class PriceServiceImpl implements PriceService {
 
     @Autowired
     private ServiceMapClient serviceMapClient;
@@ -57,6 +55,19 @@ public class ForecastPriceServiceImpl implements ForecastPriceService {
         forecastPriceResponse.setFareVersion(priceRule.getFareVersion());
         forecastPriceResponse.setFareType(priceRule.getFareType());
         return ResponseResult.success(forecastPriceResponse);
+    }
+
+    @Override
+    public ResponseResult calculatePrice(Integer distance, Integer duration, String cityCode, String vehicleType) {
+        QueryWrapper<PriceRule> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("city_code",cityCode);
+        queryWrapper.eq("vehicle_type",vehicleType);
+        queryWrapper.orderByDesc("fare_version");
+        List<PriceRule> priceRules = priceRuleMapper.selectList(queryWrapper);
+        //如果计价规则变动 用最新的计算结果
+        PriceRule priceRule = priceRules.get(0);
+        Double price = PriceCount.getPrice(distance, duration, priceRule);
+        return ResponseResult.success(price);
     }
 }
 

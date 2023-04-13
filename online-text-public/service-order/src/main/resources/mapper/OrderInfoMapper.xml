@@ -11,6 +11,7 @@
         <result property="driverId" column="driver_id" jdbcType="BIGINT"/>
         <result property="driverPhone" column="driver_phone" jdbcType="VARCHAR"/>
         <result property="carId" column="car_id" jdbcType="BIGINT"/>
+        <result property="vehicleType" column="vehicle_type" jdbcType="VARCHAR"/>
         <result property="address" column="address" jdbcType="CHAR"/>
         <result property="orderTime" column="order_time" jdbcType="TIMESTAMP"/>
         <result property="departTime" column="depart_time" jdbcType="TIMESTAMP"/>
@@ -51,7 +52,7 @@
 
     <sql id="Base_Column_List">
         id,passenger_id,passenger_phone,
-        driver_id,driver_phone,car_id,
+        driver_id,driver_phone,car_id,vehicle_type,
         address,order_time,depart_time,
         departure,dep_longitude,dep_latitude,
         destination,dest_longitude,dest_latitude,

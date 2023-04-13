@@ -86,6 +86,7 @@ public class DriverUserServiceImpl extends ServiceImpl<DriverUserMapper, DriverU
     @Override
     public ResponseResult<OrderDriverResponse> getAvailableDriver(Long carId) {
         List<OrderDriverResponse> availableDriver = driverUserMapper.getAvailableDriver(carId);
+
         if (availableDriver.size()==0){
             return ResponseResult.fail(CommonStatusEnum.NO_AVAILABLE_DRIVER.getCode(),CommonStatusEnum.NO_AVAILABLE_DRIVER_AROUND.getValue());
         }

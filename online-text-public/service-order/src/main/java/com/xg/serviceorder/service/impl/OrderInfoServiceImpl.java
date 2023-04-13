@@ -3,7 +3,6 @@ package com.xg.serviceorder.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.scenario.effect.Identity;
 import com.xg.internalcommon.constant.CommonStatusEnum;
 import com.xg.internalcommon.constant.IdentityConstant;
 import com.xg.internalcommon.constant.OrderConstants;
@@ -24,8 +23,6 @@ import com.xg.serviceorder.service.OrderInfoService;
 import com.xg.serviceorder.mapper.OrderInfoMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.apache.tomcat.jni.Local;
-import org.aspectj.weaver.ast.Or;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
@@ -34,10 +31,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.print.attribute.standard.JobSheets;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -103,7 +101,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         List<Integer> valid = orderInfoMapper.isValid(orderRequest.getPassengerId());
         if (valid.size() != 0) {
             Integer orderStatus = valid.get(0);
-            if (orderStatus.intValue() != OrderConstants.ORDER_INVALID && orderStatus.intValue() != OrderConstants.ORDER_CANCEL) {
+            //这里不用拆箱 因为比较的数值在-127-128之间 如果大于需要拆箱
+            if (orderStatus != OrderConstants.ORDER_INVALID && orderStatus != OrderConstants.ORDER_CANCEL) {
                 return ResponseResult.fail(CommonStatusEnum.ORDER_IS_STARTING.getCode(), CommonStatusEnum.ORDER_IS_STARTING.getValue());
             }
         }
@@ -158,8 +157,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         radiusList.add(2000);
         radiusList.add(4000);
         radiusList.add(5000);
-        for (int i = 0; i < radiusList.size(); i++) {
-            listResponseResult = serviceMapClient.aroundSearch(center, String.valueOf(radiusList.get(i)));
+        //设置一个集合表示不能接单的司机 防止搜索的时候再次判断
+        HashSet<Long> unavailableCarSet=new HashSet<>();
+        for (Integer integer : radiusList) {
+            listResponseResult = serviceMapClient.aroundSearch(center, String.valueOf(integer));
             //获得终端
             ArrayList<TerminalResponse> data = listResponseResult.getData();
             if (data.size() == 0) {
@@ -167,17 +168,27 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             }
             //解析终端
             //根据解析出来的终端，查询车辆信息
-            for (int j = 0; j < data.size(); j++) {
-                TerminalResponse terminalResponse = data.get(j);
+            for (TerminalResponse terminalResponse : data) {
                 Long carId = terminalResponse.getDesc();
+                if (unavailableCarSet.contains(carId)) {
+                    //判断是否有不存在的 如果有就直接跳过
+                    continue;
+                }
                 //查询司机是否是出车状态
                 ResponseResult<OrderDriverResponse> availableDriver = serviceDriverUserClient.getAvailableDriver(carId);
                 //判断司机是否有订单
                 if (availableDriver.getCode() == CommonStatusEnum.NO_AVAILABLE_DRIVER.getCode()) {
+                    unavailableCarSet.add(carId);
+                    continue;
+                }
+                OrderDriverResponse driverResponse = availableDriver.getData();
+                //判断车型
+                if (!orderInfo.getVehicleType().trim().equals(driverResponse.getVehicleType().trim())){
+                    unavailableCarSet.add(carId);
                     continue;
                 }
 
-                OrderDriverResponse driverResponse = availableDriver.getData();
+
                 Long driverId = driverResponse.getDriverId();
                 //锁司机id小技巧 变成字符串之后放到常量池里
                 // .intern()防止一直创造新的String对象造成锁的不是一个数据
@@ -189,6 +200,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 List<Integer> orderStatus = orderInfoMapper.isOrderGoingOnByDriverId(driverId);
                 if (orderStatus.get(0) > 0) {
                     //这里没有unlock 会造成死锁
+                    unavailableCarSet.add(driverId);
                     lock.unlock();
                     continue;
                 }

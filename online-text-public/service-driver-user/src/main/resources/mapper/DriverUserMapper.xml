@@ -46,7 +46,7 @@
         state,gmt_create,gmt_modified
     </sql>
     <select id="getAvailableDriver" resultType="com.xg.internalcommon.response.OrderDriverResponse">
-        SELECT T3.driver_phone, T1.driver_id, T2.car_id ,T3.license_id,T4.vehicle_no
+        SELECT T3.driver_phone, T1.driver_id, T2.car_id ,T3.license_id,T4.vehicle_no , T4.vehicle_type
         FROM driver_user_work_status AS T1
                  LEFT JOIN driver_car_binding_relationship AS T2
                            ON T1.driver_id = T2.driver_id
