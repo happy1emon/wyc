@@ -1,10 +1,10 @@
-package com.xg.testalipay;
+package com.xg.servicepay;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TestAlipayApplicationTests {
+class ServicePayApplicationTests {
 
     @Test
     void contextLoads() {

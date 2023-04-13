@@ -1,8 +1,7 @@
-package com.xg.testalipay.config;
+package com.xg.servicepay.config;
 
 import com.alipay.easysdk.factory.Factory;
 import com.alipay.easysdk.kernel.Config;
-import jdk.nashorn.internal.runtime.regexp.JoniRegExp;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

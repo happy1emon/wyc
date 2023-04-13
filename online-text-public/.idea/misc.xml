@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/service-order/pom.xml" />
         <option value="$PROJECT_DIR$/service-sse-push/pom.xml" />
         <option value="$PROJECT_DIR$/test-alipay/pom.xml" />
+        <option value="$PROJECT_DIR$/service-alipay/pom.xml" />
       </list>
     </option>
   </component>

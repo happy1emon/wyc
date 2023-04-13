@@ -17,6 +17,7 @@
         <module>service-passenger-user</module>
         <module>service-verficationcode</module>
         <module>service-sse-push</module>
+        <module>service-pay</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
